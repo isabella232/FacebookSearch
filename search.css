@@ -58,3 +58,19 @@ input[type=radio] { margin: 0 0 0 10px; }
 
 #results.show-gender-male .gender-male        { display:block; }
 #results.show-gender-female .gender-female    { display:block; }
+
+table.traffic_stats {
+    border: 1px solid #999;
+    margin: 12px;
+}
+
+table.traffic_stats th {
+    font-size: 115%;
+}
+
+table.traffic_stats td {
+    border: 1px solid #999;
+    padding: 5px;
+    padding-left:  10px;
+    padding-right: 10px;
+}
