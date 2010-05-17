@@ -1,12 +1,4 @@
 $(function() {
-  if (/willmoffat\.github\.com/.test(window.location.host)) {
-  //We just added the DNS records, so they might not have propagated.  Remove if you
-  //don't want it to redirect.
-    var s = document.getElementsByTagName('script')[0];
-    var redirect = document.createElement('script'); redirect.type = "text/javscript"; redirect.async = true;
-    redirect.src = "http://youropenbook.org/redirect_if_dns.js"; s.parentNode.insertBefore(redirect, s);
-  }
-  
   
   var examples = shuffle(["cheated test", '"don\'t tell anyone"', "rectal exam", "control urges", '"lost my virginity"', "playing hooky", '"dna test"', '"divorce trial"', "professor asshole", '"going to a strip club"', '"boss is an asshole"', '"my dui"', '"I hate my boss"', '"I hate my job"', '"Having a wank"']);
   
