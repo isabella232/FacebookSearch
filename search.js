@@ -37,19 +37,14 @@ $(function() {
 
   function gender2class(gender) { return 'gender-'+(gender || 'any'); }
 
-  var opposite = {male: "female", female: "male"};
+
   function update_gender(gender) {
-    var classes = [];
-    $("input:checkbox[checked]").each(function(_, box) {
-      classes.push('show-' + gender2class($(box).val()));
-    });
-    
-    $("#results").attr("class", classes.join(" "));
+    $('#results').attr('class','only-'+gender2class(gender));
   }
   
   $('#q').attr('value',params.q);
-  $('input:checkbox[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
-  $('input:checkbox').click(update_gender);
+  $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
+  $('input:radio').click(function() { update_gender($(this).val()); });
 
   $.getJSON("http://popular.youropenbook.org:8000/?q=" + $("#q").val() + "&callback=?", function(response) {
     setExamples(response.latest, "#latest");
