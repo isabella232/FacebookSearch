@@ -1,20 +1,11 @@
 $(function() {
-  if (/willmoffat\.github\.com/.test(window.location.host)) {
-  //We just added the DNS records, so they might not have propagated.  Remove if you
-  //don't want it to redirect.
-    var s = document.getElementsByTagName('script')[0];
-    var redirect = document.createElement('script'); redirect.type = "text/javscript"; redirect.async = true;
-    redirect.src = "http://youropenbook.org/redirect_if_dns.js"; s.parentNode.insertBefore(redirect, s);
-  }
-  
   
   var examples = shuffle(["cheated test", '"don\'t tell anyone"', "rectal exam", "control urges", '"lost my virginity"', "playing hooky", '"dna test"', '"divorce trial"', "professor asshole", '"going to a strip club"', '"boss is an asshole"', '"my dui"', '"I hate my boss"', '"I hate my job"', '"Having a wank"']);
   
   var params={
     q:  examples[0],  // query str
     gender:  'any',   // male female any
-    maxlen:  500,     // max message len
-    classy: false     // don't hide profile pics, names, links
+    maxlen:  500      // max message len
   };
   document.location.search.replace(/[?&]([^&=]+)=([^&]+)/g,function(_,key,val) {
     val = decodeURIComponent(val).replace(/\+/g,' ');
@@ -22,7 +13,6 @@ $(function() {
       params[key]=val; 
   });
    
-  function hide(name)   { return params.classy ? name.replace(/[a-z]/g,'-') : name; } // just show initials unless in asehole mode
   function encode(text) { return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');  }
   function gender_img(gender) {
     if (!gender) { return ''; }
@@ -40,7 +30,7 @@ $(function() {
   var ROW_HTML=['',
   '<div class="update ~ROWCLASS~">',
   '  <div class="person">',
-  '    <a href="http://www.facebook.com/profile.php?id=~ID~&v=wall" target="_blank"><div class="black"/><img src="http://graph.facebook.com/~ID~/picture?type=large"/></a>',
+  '    <a href="http://www.facebook.com/profile.php?id=~ID~&v=wall" target="_blank"><img src="http://graph.facebook.com/~ID~/picture?type=large"/></a>',
   '  </div>',
   '<div class="msg">',
   '  <p>~SEX~ <b><a href="http://www.facebook.com/profile.php?id=~ID~&v=wall" target="_blank">~NAME~</a></b>',
@@ -48,7 +38,6 @@ $(function() {
   ' <span class="msg-metadata">~TIME~ ~FROM~</span>',
   '</div>',
   '</div>'].join('\n');
-  if (params.classy) { ROW_HTML = ROW_HTML.replace(/<\/?a.+?>/g,''); }
 
   function gender2class(gender) { return 'gender-'+(gender || 'any'); }
 
@@ -57,7 +46,7 @@ $(function() {
     var classes = [];
     $("input:checkbox[checked]").each(function(_, box) {
       classes.push('show-' + gender2class($(box).val()));
-    })
+    });
     
     $("#results").attr("class", classes.join(" "));
   }
@@ -65,19 +54,11 @@ $(function() {
   $('#q').attr('value',params.q);
   $('input:checkbox[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
   $('input:checkbox').click(update_gender);
-  if (!params.classy) {
-    $('body').addClass('asshole');
-  } else {
-    $('.black').live('mouseover mouseout', function(event) { $('#explain').toggle( event.type === 'mouseover' ); });
-  }
-  setTimeout(function() {
-      $('<img src="http://hamstersoup.com/w.gif?ts='+ +new Date()+'" />').appendTo('body');
-  }, 1000);
 
   $.getJSON("http://popular.youropenbook.org:8000/?q=" + $("#q").val() + "&callback=?", function(response) {
     setExamples(response.latest, "#latest");
     $("#latest").show();
-  })
+  });
 
   function setExamples(examples, location) {
     $.each(examples,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo(location); });
@@ -131,7 +112,7 @@ $(function() {
         var html = ROW_HTML
         .replace(/~ROWCLASS~/g, classname)
         .replace(/~ID~/g,  post.from.id)
-        .replace(/~NAME~/g,hide(post.from.name))
+        .replace(/~NAME~/g,post.from.name)
         .replace(/~SEX~/g, gender_img(user.gender))
         .replace(/~TIME~/g,window.get_relative_timestamp(post.created_time))
         .replace(/~FROM~/g,(user.location && user.location.name) || '')
