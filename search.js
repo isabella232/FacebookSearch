@@ -7,7 +7,11 @@ $(function() {
     gender:  'any',   // male female any
     maxlen:  500      // max message len
   };
-  document.location.search.replace(/[?&]([^&=]+)=([^&]+)/g,function(_,key,val) { params[key]=decodeURIComponent(val).replace(/\+/g,' '); });
+  document.location.search.replace(/[?&]([^&=]+)=([^&]+)/g,function(_,key,val) {
+    val = decodeURIComponent(val).replace(/\+/g,' ');
+    if (val + "" !== "undefined")
+      params[key]=val; 
+  });
    
   function encode(text) { return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');  }
   function gender_img(gender) {
