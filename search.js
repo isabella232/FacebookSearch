@@ -66,9 +66,6 @@ $(function() {
   } else {
     $('.black').live('mouseover mouseout', function(event) { $('#explain').toggle( event.type === 'mouseover' ); });
   }
-  setTimeout(function() {
-      $('<img src="http://hamstersoup.com/w.gif?ts='+ +new Date()+'" />').appendTo('body');
-  }, 1000);
 
   $.getJSON("http://popular.youropenbook.org:8000/?q=" + $("#q").val() + "&callback=?", function(response) {
     setExamples(response.latest, "#latest");
