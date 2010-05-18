@@ -32,8 +32,11 @@
           <label><input type="radio" name="gender" value="female" /> <img src="images/female-small.png" alt="Show Female only" title="Show Female only"></label>
           <label><input type="radio" name="gender" value="any" /> everybody</label>
         </form>
-    <div class='examples invisible' id="latest">Latest Searches: </div>
 
+        <div class='examples invisible' id="latest">
+          <span id="examples">Latest Searches:<span></span></span>
+          <span id="queryrate"><b>??</b>k queries/hour</span>
+        </div>
         <div id="results"></div>
         <div class="waitloading"><img src='images/spinner.gif'></div>
         <div id="finished">No more results. Try another search!</div>
@@ -96,14 +99,12 @@
         $('input:radio').click(function() { update_gender($(this).val()); });
 
         $.getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
-          setExamples(response.latest, "#latest");
+          $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
+          $('#queryrate b')
+          .text( Math.floor(response.qpm*60/1000) ) // queries per hour in 1000s
+          .attr('title',Math.round(10*response.qpm/60)/10 + ' queries per sec');
           $("#latest").show();
         });
-
-        function setExamples(examples, location) {
-          $.each(examples,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo(location); });
-        }
-
 
         function loadMore() {
           var page_remaining = $(document).height() - ($(window).height() + $(window).scrollTop());
