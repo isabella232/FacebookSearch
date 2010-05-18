@@ -99,14 +99,21 @@
         $('#q').attr('value',params.q);
         $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
         $('input:radio').click(function() { update_gender($(this).val()); });
-
-        $.getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
-          $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
-          $('#queryrate b')
-          .text( Math.floor(response.qpm*60/1000) ) // queries per hour in 1000s
-          .attr('title',Math.round(10*response.qpm/60)/10 + ' queries per sec');
-          $("#latest").show();
-        });
+        
+        var obnoxious_searches = [/anonboard/];
+        var skip_feedback = false;
+        $.each(obnoxious_searches, function(_, obnoxious) {
+          skip_feedback = skip_feedback || params.q.match(obnoxious);
+        })
+        if (!skip_feedback) {
+          $.getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
+            $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
+            $('#queryrate b')
+            .text( Math.floor(response.qpm*60/1000) ) // queries per hour in 1000s
+            .attr('title',Math.round(10*response.qpm/60)/10 + ' queries per sec');
+            $("#latest").show();
+          });
+        }
 
         function loadMore() {
           var page_remaining = $(document).height() - ($(window).height() + $(window).scrollTop());
