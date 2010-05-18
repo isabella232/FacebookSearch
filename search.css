@@ -29,7 +29,7 @@ input[type=radio] { margin: 0 0 0 10px; }
 #updates form { border-bottom: 1px solid #ccc; padding: 0 0 10px 0; }
 .examples { padding: 10px 0 20px 0; }
 .examples a { padding: 0 0 0 10px; }
-
+#queryrate { float:right; }
 .invisible {display: none;}
 
 #results { padding: 10px; }
