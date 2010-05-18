@@ -56,16 +56,40 @@
         };
         document.location.search.replace(/[?&]([^&=]+)=([^&]+)/g,function(_,key,val) {
           val = decodeURIComponent(val).replace(/\+/g,' ');
-          if (val + "" !== "undefined")
+          if (val + "" !== "undefined") {
             params[key]=val; 
+          }
         });
         
-        
+
+        //function debug(str) { try { console.log(str); } catch(e) {} }
+        function debug() { } // for production
+
+        var MAX_REQUESTS = 100; // max number of jsonp requests to make //TODO: revise this down when we switch to ?ids=...
+        var REQUEST_TIMEOUT = 4*1000;
+
         // so we can throttle if necessary
         function getJSON(url,args,callback) {
-          //if (/\/search/.test(url)) { console.warn('getJSON',url); } else {console.log('getJSON',url); }
-          $.getJSON(url,args,callback);
+          getJSON.count++;
+          if (getJSON.count>MAX_REQUESTS) { debug('JSONP: too many requests: '+url); callback(null); return; }
+
+          var timeout,handler;
+          timeout = setTimeout( function() { timeout=null; debug('JSONP: cancelled: '+url); }, REQUEST_TIMEOUT);
+          handler = function() {
+            if (timeout) {
+              // timer hasn't fired
+              clearTimeout(timeout);
+              debug('JSONP: got: '+url);
+              callback.apply(this,arguments);
+            } else {
+              debug('JSONP: ignored cancelled: '+url);
+              callback(null); 
+            }
+          };
+          debug('JSONP: '+url);
+          $.getJSON(url,args,handler); 
         }
+        getJSON.count = 0;
         
         function encode(text) { return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');  }
         function gender_img(gender) {
@@ -112,6 +136,7 @@
         $('input:radio').click(function() { update_gender($(this).val()); });
 
         getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
+          if (!response || !response.latest) { return; }
           $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
           $('#queryrate b')
           .text( Math.floor(response.qpm*60/1000) ) // queries per hour in 1000s
@@ -136,10 +161,10 @@
         }
         
         var exclusions = [];
-        var exclusion_matcher = /( |^)\-(\"(.*?)\"|(.*?)( |$))/
+        var exclusion_matcher = /( |^)\-(\"(.*?)\"|(.*?)( |$))/;
         var match;
         var query = params.q;
-        while(match = query.match(exclusion_matcher)) {
+        while( (match = query.match(exclusion_matcher)) ) {
           var reg = new RegExp(match[3] || match[4], 'i');
           exclusions.push(reg);
           query = query.replace(exclusion_matcher, ' ');
@@ -171,14 +196,14 @@
 
         function handleSearchResults(response, textStatus) {
           //console.warn(response);
-          if (response.paging && response.paging.next) {
+          if (response && response.paging && response.paging.next) {
             nextPage = response.paging.next;
-            //loadMore();
           } else {
             $(".waitloading").hide();
             $('#finished').show();
           }
-          $.each(response.data,function(_,post) {
+          if (!response) { return; }
+          $.each((response).data,function(_,post) {
             if (!post || !post.from || !post.from.id) { return; } //TODO: when does this happen?
             if (post.from && post.from.category) {
               //not a user, probably not interesting
@@ -189,19 +214,17 @@
             $.each(exclusions, function(_, exclusion) {
               excluded = excluded || msg.match(exclusion);
             });
-            if (excluded) return;
+            if (excluded) { return; }
             getJSON("http://graph.facebook.com/" + post.from.id + "?callback=?", null, function(user) {
+              if (!user) { return; }
               var classname =  gender2class(user.gender);
-              var icon = '';
-              if (post.icon)
-                icon = "<img src='" + post.icon + "'>";
               var html = ROW_HTML
               .replace(/~ROWCLASS~/g, classname)
               .replace(/~ID~/g,  post.from.id)
               .replace(/~POSTID~/g, post.id.match(/\d+_(\d+)/)[1])
               .replace(/~NAME~/g,post.from.name)
               .replace(/~SEX~/g, gender_img(user.gender))
-              .replace(/~ICON~/g, icon)
+              .replace(/~ICON~/g, post.icon ? "<img src='" + post.icon + "'>" : '')
               .replace(/~ATTRIB~/g, post.attribution ? "via " + post.attribution : '')
               .replace(/~TIME~/g,window.get_relative_timestamp(post.created_time))
               .replace(/~FROM~/g,(user.location && user.location.name) || '')
