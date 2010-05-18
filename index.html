@@ -171,9 +171,6 @@
 
         function handleSearchResults(response, textStatus) {
           //console.warn(response);
-          if (response.data && response.data.length && !$('#sharesearch a').length) { // only insert button once and if there are results
-            addShareButton();
-          }
           if (response.paging && response.paging.next) {
             nextPage = response.paging.next;
             //loadMore();
@@ -211,6 +208,9 @@
               .replace(/~MSG~/g, msg);  // MUST BE LAST
               
               $(html).appendTo($('#results'));
+              if (!$('#sharesearch a').length && $('#results .update:visible').length) { // only insert button once and if there are results
+                addShareButton();
+              }
             });
           });
         }
