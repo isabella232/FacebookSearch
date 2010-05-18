@@ -150,15 +150,15 @@
         }
         
         function get_current_query() {
-          return '?q=' + encodeURIComponent($('#q').val()) + '&gender=' + encodeURIComponent($('input:checked').val());
+          return '?q=' + $('#q').val() + '&gender=' + $('input:checked').val();
         }
-        function get_current_url() {
-          return encodeURIComponent(document.location.hostname + '/' + get_current_query());
+        function get_current_url(encoded) {
+          return 'http://'+document.location.hostname + '/' + get_current_query();
         }
         function addShareButton() {
           $(SHARE_HTML.replace(/SHARE_URL/,get_current_url())).click(function() {
             document.title = 'Search: '+$('#q').val(); // TODO: this is only used until FB scans page
-            $('#sharesearch a').attr('href',function(_,href) { return href.replace(/u=[^&]+/,'u='+get_current_url()); });
+            $('#sharesearch a').attr('href',function(_,href) { return href.replace(/u=[^&]+/,'u='+encodeURIComponent(get_current_url())); });
             $.getJSON("http://popular.youropenbook.org:8000/", {'share':get_current_query()});
           }).appendTo($('#sharesearch')); //  //TODO: get current query state (q, gender)
         }
