@@ -47,7 +47,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script>
       $(function() {
-
         var examples = shuffle(["cheated test", '"don\'t tell anyone"', "rectal exam", "control urges", '"lost my virginity"', "playing hooky", '"dna test"', '"divorce trial"', "professor asshole", '"going to a strip club"', '"boss is an asshole"', '"my dui"', '"I hate my boss"', '"I hate my job"', '"Having a wank"', '"I\'m not racist but" -pubs']);
 
         var params={
@@ -60,6 +59,13 @@
           if (val + "" !== "undefined")
             params[key]=val; 
         });
+        
+        
+        // so we can throttle if necessary
+        function getJSON(url,args,callback) {
+          //if (/\/search/.test(url)) { console.warn('getJSON',url); } else {console.log('getJSON',url); }
+          $.getJSON(url,args,callback);
+        }
         
         function encode(text) { return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');  }
         function gender_img(gender) {
@@ -105,7 +111,7 @@
         $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
         $('input:radio').click(function() { update_gender($(this).val()); });
 
-        $.getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
+        getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
           $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
           $('#queryrate b')
           .text( Math.floor(response.qpm*60/1000) ) // queries per hour in 1000s
@@ -124,7 +130,7 @@
         var nextPage = false;
         function fetchNextPage() {
           if (nextPage) {
-            $.getJSON(nextPage + "&callback=?", handleSearchResults);
+            getJSON(nextPage + "&callback=?", null, handleSearchResults);
             nextPage = false;
           }
         }
@@ -138,7 +144,7 @@
           exclusions.push(reg);
           query = query.replace(exclusion_matcher, ' ');
         }
-        $.getJSON( 'http://graph.facebook.com/search?callback=?', {'q':query, 'type':'post'}, handleSearchResults);
+        getJSON( 'http://graph.facebook.com/search?callback=?', {'q':query, 'type':'post'}, handleSearchResults);
 
         function body(post) {
           var body = $.map(['message','caption','description','name'],function(prop) {return post[prop] || '';}).join(' ');
@@ -159,7 +165,7 @@
           $(SHARE_HTML.replace(/SHARE_URL/,get_current_url())).click(function() {
             document.title = 'Search: '+$('#q').val(); // TODO: this is only used until FB scans page
             $('#sharesearch a').attr('href',function(_,href) { return href.replace(/u=[^&]+/,'u='+encodeURIComponent(get_current_url())); });
-            $.getJSON("http://popular.youropenbook.org:8000/", {'share':get_current_query()});
+            getJSON("http://popular.youropenbook.org:8000/", {'share':get_current_query()},null);
           }).appendTo($('#sharesearch')); //  //TODO: get current query state (q, gender)
         }
 
@@ -170,7 +176,7 @@
           }
           if (response.paging && response.paging.next) {
             nextPage = response.paging.next;
-            loadMore();
+            //loadMore();
           } else {
             $(".waitloading").hide();
             $('#finished').show();
@@ -187,7 +193,7 @@
               excluded = excluded || msg.match(exclusion);
             });
             if (excluded) return;
-            $.getJSON("http://graph.facebook.com/" + post.from.id + "?callback=?", function(user) {
+            getJSON("http://graph.facebook.com/" + post.from.id + "?callback=?", null, function(user) {
               var classname =  gender2class(user.gender);
               var icon = '';
               if (post.icon)
