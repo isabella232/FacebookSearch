@@ -95,7 +95,7 @@
         $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
         $('input:radio').click(function() { update_gender($(this).val()); });
 
-        $.getJSON("http://popular.youropenbook.org:8000/?q=" + $("#q").val() + "&callback=?", function(response) {
+        $.getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
           setExamples(response.latest, "#latest");
           $("#latest").show();
         });
