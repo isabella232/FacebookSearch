@@ -131,7 +131,6 @@
           exclusions.push(reg);
           query = query.replace(exclusion_matcher, ' ');
         }
-        console.log(exclusions)
         $.getJSON( 'http://graph.facebook.com/search?callback=?', {'q':query, 'type':'post'}, handleSearchResults);
 
         function body(post) {
