@@ -64,7 +64,7 @@
         function encode(text) { return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');  }
         function gender_img(gender) {
           if (!gender) { return ''; }
-          return '<img class="gender" src="images/'+gender+'.png" />';
+          return '<img class="gender" src="images/'+gender+'-small.png" />';
         }
         function highlight(q,text) {
           q = q.replace(/^\s+|\s+$/g,'')                       // whitespace trim
@@ -203,8 +203,7 @@
           if (dD > 0)   { return dD === 1? "1 day ago"    : dD + " days ago"; }
           if (dH > 0)   { return dH === 1? "1 hour ago"   : dH + " hours ago"; }
           if (dN > 0)   { return dN === 1? "1 minute ago" : dN + " minutes ago"; }
-          if (dN === 0)  { return "less than a minute ago"; }
-          if (dN < 0)   { return "in the future???"; }
+          return "less than a minute ago";
         };
 
         // from http://delete.me.uk/2005/03/iso8601.html
