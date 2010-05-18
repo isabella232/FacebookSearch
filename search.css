@@ -35,6 +35,7 @@ input[type=radio] { margin: 0 0 0 10px; }
 .invisible {display: none;}
 
 #results { padding: 10px; }
+#sharesearch { margin-bottom:10px; text-align:center; }
 .waitloading {  clear: both; text-align: center; }
 .update { padding: 0 0 20px 0; clear: both; }
 .person { float: left; width: 215px; margin: 0 0 40px 0; }

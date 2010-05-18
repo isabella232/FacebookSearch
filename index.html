@@ -37,7 +37,7 @@
           <span id="examples">Latest Searches:<span></span></span>
           <span id="queryrate"><b>??</b>k queries/hour</span>
         </div>
-        <div id="results"></div>
+        <div id="results"><div id="sharesearch"></div></div>
         <div class="waitloading"><img src='images/spinner.gif'></div>
         <div id="finished">No more results. Try another search!</div>
   </div>
@@ -47,7 +47,6 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script>
       $(function() {
-
         var examples = shuffle(["cheated test", '"don\'t tell anyone"', "rectal exam", "control urges", '"lost my virginity"', "playing hooky", '"dna test"', '"divorce trial"', "professor asshole", '"going to a strip club"', '"boss is an asshole"', '"my dui"', '"I hate my boss"', '"I hate my job"', '"Having a wank"', '"I\'m not racist but" -pubs']);
 
         var params={
@@ -57,9 +56,40 @@
         };
         document.location.search.replace(/[?&]([^&=]+)=([^&]+)/g,function(_,key,val) {
           val = decodeURIComponent(val).replace(/\+/g,' ');
-          if (val + "" !== "undefined")
+          if (val + "" !== "undefined") {
             params[key]=val; 
+          }
         });
+        
+
+        //function debug(str) { try { console.log(str); } catch(e) {} }
+        function debug() { } // for production
+
+        var MAX_REQUESTS = 20; // max number of jsonp requests to make 
+        var REQUEST_TIMEOUT = 4*1000;
+
+        // so we can throttle if necessary
+        function getJSON(url,args,callback,neverCancel) {
+          getJSON.count++;
+          if (!neverCancel && getJSON.count>MAX_REQUESTS) { debug('JSONP: too many requests: '+url); callback(null); return; }
+
+          var timeout,handler;
+          timeout = setTimeout( function() { if (!neverCancel) { timeout=null; debug('JSONP: cancelled: '+url); } }, REQUEST_TIMEOUT);
+          handler = function() {
+            if (timeout) {
+              // timer hasn't fired
+              clearTimeout(timeout);
+              debug('JSONP: got: '+url);
+              callback.apply(this,arguments);
+            } else {
+              debug('JSONP: ignored cancelled: '+url);
+              callback(null); 
+            }
+          };
+          debug('JSONP: '+url);
+          $.getJSON(url,args,handler); 
+        }
+        getJSON.count = 0;
         
         function encode(text) { return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');  }
         function gender_img(gender) {
@@ -88,6 +118,11 @@
         '~TIME~</a> ~ATTRIB~ <b>~FROM~</b></span>',
         '</div>',
         '</div>'].join('\n');
+        
+        var SHARE_HTML=['',
+        '<a name="fb_share" type="button_count" share_url="SHARE_URL" href="http://www.facebook.com/sharer.php">Share this search</a>',
+        '<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"><\/script>',
+        ''].join('');
 
         function gender2class(gender) { return 'gender-'+(gender || 'any'); }
 
@@ -100,7 +135,8 @@
         $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
         $('input:radio').click(function() { update_gender($(this).val()); });
 
-        $.getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
+        getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
+          if (!response || !response.latest) { return; }
           $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
           $('#queryrate b')
           .text( Math.floor(response.qpm*60/1000) ) // queries per hour in 1000s
@@ -119,21 +155,21 @@
         var nextPage = false;
         function fetchNextPage() {
           if (nextPage) {
-            $.getJSON(nextPage + "&callback=?", handleSearchResults);
+            getJSON(nextPage + "&callback=?", null, handleSearchResults);
             nextPage = false;
           }
         }
         
         var exclusions = [];
-        var exclusion_matcher = /( |^)\-(\"(.*?)\"|(.*?)( |$))/
+        var exclusion_matcher = /( |^)\-(\"(.*?)\"|(.*?)( |$))/;
         var match;
         var query = params.q;
-        while(match = query.match(exclusion_matcher)) {
+        while( (match = query.match(exclusion_matcher)) ) {
           var reg = new RegExp(match[3] || match[4], 'i');
           exclusions.push(reg);
           query = query.replace(exclusion_matcher, ' ');
         }
-        $.getJSON( 'http://graph.facebook.com/search?callback=?', {'q':query, 'type':'post'}, handleSearchResults);
+        getJSON( 'http://graph.facebook.com/search?callback=?', {'q':query, 'type':'post'}, handleSearchResults);
 
         function body(post) {
           var body = $.map(['message','caption','description','name'],function(prop) {return post[prop] || '';}).join(' ');
@@ -143,46 +179,68 @@
           body = encode(body);
           return highlight( params.q, body );
         }
-        function handleSearchResults(response, textStatus) {
-          //console.warn(response);
+        
+        function get_current_query() {
+          return '?q=' + $('#q').val() + '&gender=' + $('input:checked').val();
+        }
+        function get_current_url(encoded) {
+          return 'http://'+document.location.hostname + '/' + get_current_query();
+        }
+        function addShareButton() {
+          $(SHARE_HTML.replace(/SHARE_URL/,get_current_url())).click(function() {
+            document.title = 'Search: '+$('#q').val(); // TODO: this is only used until FB scans page
+            $('#sharesearch a').attr('href',function(_,href) { return href.replace(/u=[^&]+/,'u='+encodeURIComponent(get_current_url())); });
+            getJSON("http://popular.youropenbook.org:8000/", {'share':get_current_query()}, function() {}, true /*never timeout*/);
+          }).appendTo($('#sharesearch')); //  //TODO: get current query state (q, gender)
+        }
 
-          if (response.paging && response.paging.next) {
+        function drawRow(post,user) {
+          if (!user) { return; }
+          var msg = body(post);
+          var html = ROW_HTML
+          .replace(/~ROWCLASS~/g, gender2class(user.gender))
+          .replace(/~ID~/g,       post.from.id)
+          .replace(/~POSTID~/g,   post.id.match(/\d+_(\d+)/)[1])
+          .replace(/~NAME~/g,     post.from.name)
+          .replace(/~SEX~/g,      gender_img(user.gender))
+          .replace(/~ICON~/g,     post.icon ? "<img src='" + post.icon + "'>" : '')
+          .replace(/~ATTRIB~/g,   post.attribution ? "via " + post.attribution : '')
+          .replace(/~TIME~/g,     window.get_relative_timestamp(post.created_time))
+          .replace(/~FROM~/g,     (user.location && user.location.name) || '')
+          .replace(/~MSG~/g,      msg);  // MUST BE LAST
+          
+          $(html).appendTo($('#results'));
+          if (!$('#sharesearch a').length && $('#results .update:visible').length) { // only insert button once and if there are results
+            addShareButton();
+          }
+        }
+        
+
+        function handleSearchResults(response, textStatus) {
+          if (response && response.paging && response.paging.next) {
             nextPage = response.paging.next;
-            loadMore();
           } else {
             $(".waitloading").hide();
             $('#finished').show();
           }
-          $.each(response.data,function(_,post) {
-            if (!post || !post.from || !post.from.id) { return; } //TODO: when does this happen?
-            if (post.from && post.from.category) {
-              //not a user, probably not interesting
-              return;
-            }
+          if (!response) { return; }
+          var posts = $.grep(response.data,function(post) {
+            if (!post || !post.from || !post.from.id) { return false; } //TODO: when does this happen?
+            if (post.from && post.from.category)      { return false; }      //not a user, probably not interesting
             var msg = body(post);
             var excluded = false;
             $.each(exclusions, function(_, exclusion) {
               excluded = excluded || msg.match(exclusion);
             });
-            if (excluded) return;
-            $.getJSON("http://graph.facebook.com/" + post.from.id + "?callback=?", function(user) {
-              var classname =  gender2class(user.gender);
-              var icon = '';
-              if (post.icon)
-                icon = "<img src='" + post.icon + "'>";
-              var html = ROW_HTML
-              .replace(/~ROWCLASS~/g, classname)
-              .replace(/~ID~/g,  post.from.id)
-              .replace(/~POSTID~/g, post.id.match(/\d+_(\d+)/)[1])
-              .replace(/~NAME~/g,post.from.name)
-              .replace(/~SEX~/g, gender_img(user.gender))
-              .replace(/~ICON~/g, icon)
-              .replace(/~ATTRIB~/g, post.attribution ? "via " + post.attribution : '')
-              .replace(/~TIME~/g,window.get_relative_timestamp(post.created_time))
-              .replace(/~FROM~/g,(user.location && user.location.name) || '')
-              .replace(/~MSG~/g, msg);  // MUST BE LAST
-              
-              $(html).appendTo($('#results'));
+            return !excluded;
+            
+          });
+          if (!posts.length) { return; }
+          var userids = $.map(posts,function(post) { return post.from.id; });
+          var url = 'http://graph.facebook.com/?ids='+userids.join(',') + '&callback=?';
+          getJSON(url, null, function(users) {
+            $.each(posts,function(_,post) {
+              drawRow(post,users[post.from.id]);              
             });
           });
         }
