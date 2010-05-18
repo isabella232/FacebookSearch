@@ -40,7 +40,10 @@ input[type=radio] { margin: 0 0 0 10px; }
 .person { float: left; width: 215px; margin: 0 0 40px 0; }
 .person img { padding: 1px; border: #ccc 1px solid; }
 .msg { margin: 0 0 0 215px; font-size: 13px; line-height: 1.3em; }
-.msg-metadata { font-size: 11px; color: #666; padding: 5px 0 0 0;  }
+.msg-metadata { font-size: 11px; color: #666; padding: 5px 0 0 0; height: 16px; }
+.msg-metadata a {color: #666;}
+.msg-metadata a:link:hover {color: #666;}
+.msg-metadata a:visited:hover {color: #666;}
 #finished { text-align: center; font-size: 16px; font-weight: bold; display: none; }
 #returnlink { display: block; margin: 30px; text-align: center; font-size: 16px; font-weight: bold; }
 
