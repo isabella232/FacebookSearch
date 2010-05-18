@@ -37,7 +37,7 @@
           <span id="examples">Latest Searches:<span></span></span>
           <span id="queryrate"><b>??</b>k queries/hour</span>
         </div>
-        <div id="results"></div>
+        <div id="results"><div id="sharesearch"></div></div>
         <div class="waitloading"><img src='images/spinner.gif'></div>
         <div id="finished">No more results. Try another search!</div>
   </div>
@@ -86,6 +86,11 @@
         ' <span class="msg-metadata">~TIME~ <b>~FROM~</b></span>',
         '</div>',
         '</div>'].join('\n');
+        
+        var SHARE_HTML=['',
+        '<a name="fb_share" type="button_count" share_url="SHARE_URL" href="http://www.facebook.com/sharer.php">Share this search</a>',
+        '<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"><\/script>',
+        ''].join('');
 
         function gender2class(gender) { return 'gender-'+(gender || 'any'); }
 
@@ -132,9 +137,26 @@
           body = encode(body);
           return highlight( params.q, body );
         }
+        
+        function get_current_query() {
+          return '?q=' + encodeURIComponent($('#q').val()) + '&gender=' + encodeURIComponent($('input:checked').val());
+        }
+        function get_current_url() {
+          return encodeURIComponent(document.location.hostname + '/' + get_current_query());
+        }
+        function addShareButton() {
+          $(SHARE_HTML.replace(/SHARE_URL/,get_current_url())).click(function() {
+            document.title = 'Search: '+$('#q').val(); // TODO: this is only used until FB scans page
+            $('#sharesearch a').attr('href',function(_,href) { return href.replace(/u=[^&]+/,'u='+get_current_url()); });
+            $.getJSON("http://popular.youropenbook.org:8000/", {'share':get_current_query()});
+          }).appendTo($('#sharesearch')); //  //TODO: get current query state (q, gender)
+        }
+
         function handleSearchResults(response, textStatus) {
           //console.warn(response);
-
+          if (response.data && response.data.length && !$('#sharesearch a').length) { // only insert button once and if there are results
+            addShareButton();
+          }
           if (response.paging && response.paging.next) {
             nextPage = response.paging.next;
             loadMore();
