@@ -10,6 +10,7 @@ b { font-weight: bold; }
 body { font-size: 62.5%; line-height: 1; color: #000; background: #fff url(images/bg.png) repeat-x; font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;}
 
 .links a { padding: 0px 8px;}
+.links {text-align: justify;}
 
 #container { margin: 0 auto; width: 875px; }
 
