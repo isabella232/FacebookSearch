@@ -39,13 +39,7 @@
           <span id="examples">Starred Searches:<span></span></span>
           <span id="queryrate"><b>??</b>k queries/hour</span>
         </div>
-        <div id="results">
-          <div id="sharesearch" class="invisible" title="Share this search with other vistors">
-            <span class="unstarred"><img src="images/unstarred.gif"/> Star</span>
-            <span class="starred"  ><img src="images/starred.gif"  /> Unstar</span>
-            <span>these results</span>
-          </div>
-        </div>
+        <div id="results"></div>
         <div class="waitloading"><img src='images/spinner.gif'></div>
         <div id="finished">No more results. Try another search!</div>
   </div>
@@ -143,7 +137,7 @@
 
         $('#q').attr('value',params.q);
         $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
-        $('input:radio').click(function() { update_gender($(this).val()); update_share_visible(); });
+        $('input:radio').click(function() { update_gender($(this).val()); });
 
         getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
           if (!response || !response.latest) { return; }
@@ -196,19 +190,6 @@
         function get_current_url(encoded) {
           return 'http://'+document.location.hostname + '/' + get_current_query();
         }
-        
-
-        function update_share_visible() {
-          if ($('#results .update:visible').length) {
-            $('#sharesearch').attr('class','unstarred');
-          }
-        }
-
-        $('#sharesearch img').click(function() {
-          var isStarred = $('#sharesearch').toggleClass('starred').toggleClass('unstarred').hasClass('starred');
-          var share_info = get_current_query() + '&lang=' + navigator.language + '&count=' + $('#results .update:visible').length + '&isStarred=' + isStarred;
-          getJSON("http://popular.youropenbook.org:8000/?callback=?", {'share':share_info}, function() {}, true);  /*never timeout*/
-        });
 
         function drawRow(post,user) {
           if (!user) { return; }
@@ -226,7 +207,6 @@
           .replace(/~MSG~/g,      msg);  // MUST BE LAST
           
           $(html).appendTo($('#results'));
-          update_share_visible();
         }
         
 
