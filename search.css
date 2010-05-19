@@ -79,3 +79,6 @@ table.traffic_stats td {
 table.traffic_stats .amt {
     text-align: right;
 }
+
+#footer { text-align:center;}
+#footer img { vertical-align:middle;}
