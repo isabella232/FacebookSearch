@@ -191,7 +191,7 @@
         }
         
         function get_current_query() {
-          return '?q=' + $('#q').val() + '&gender=' + $('input:checked').val();
+          return '?q=' + $.trim($('#q').val()) + '&gender=' + $('input:checked').val();
         }
         function get_current_url(encoded) {
           return 'http://'+document.location.hostname + '/' + get_current_query();
