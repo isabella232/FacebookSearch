@@ -1,4 +1,4 @@
-* { margin: 0; padding: 0; border: 0; outline: 0; vertical-align: baseline; 
+* { margin: 0; padding: 0; border: 0; outline: 0; vertical-align: baseline;
     font-family: inherit; font-weight: inherit;  font-style: inherit; font-size: inherit; }
 table { border-collapse: collapse; border-spacing: 0; }
 ul, ol { list-style: none; }
@@ -35,7 +35,7 @@ input[type=radio] { margin: 0 0 0 10px; }
 #queryrate { float:right; }
 .invisible {display: none;}
 
-#results { padding: 10px; }          
+#results { padding: 10px; }
 .waitloading {  clear: both; text-align: center; }
 .update { padding: 0 0 20px 0; clear: both; }
 .person { float: left; width: 215px; margin: 0 0 40px 0; }
