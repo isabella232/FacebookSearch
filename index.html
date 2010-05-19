@@ -36,10 +36,16 @@
         </form>
 
         <div class='examples invisible' id="latest">
-          <span id="examples">Latest Searches:<span></span></span>
+          <span id="examples">Starred Searches:<span></span></span>
           <span id="queryrate"><b>??</b>k queries/hour</span>
         </div>
-        <div id="results"><div id="sharesearch"></div></div>
+        <div id="results">
+          <div id="sharesearch" class="invisible" title="Share this search with other vistors">
+            <span class="unstarred"><img src="images/unstarred.gif"/> Star</span>
+            <span class="starred"  ><img src="images/starred.gif"  /> Unstar</span>
+            <span>these results</span>
+          </div>
+        </div>
         <div class="waitloading"><img src='images/spinner.gif'></div>
         <div id="finished">No more results. Try another search!</div>
   </div>
@@ -121,11 +127,13 @@
         '</div>',
         '</div>'].join('\n');
         
-        var SHARE_HTML=['',
-        '<a name="fb_share" type="button_count" share_url="SHARE_URL" href="http://www.facebook.com/sharer.php">Share this search</a>',
-        '<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"><\/script>',
-        ''].join('');
-
+        // try to find popular search terms
+        $('#results .update a').live('click',function() {
+          var userid = this.href.replace(/.+id=(\d+).+/,'$1');
+          var share_info = get_current_query() + '&lang=' + navigator.language + '&count=' + $('#results .update:visible').length + '&userid='+userid;
+          getJSON("http://popular.youropenbook.org:8000/?callback=?", {'share':share_info}, function() {}, true);  /*never timeout*/
+        });
+        
         function gender2class(gender) { return 'gender-'+(gender || 'any'); }
 
 
@@ -135,7 +143,7 @@
 
         $('#q').attr('value',params.q);
         $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
-        $('input:radio').click(function() { update_gender($(this).val()); });
+        $('input:radio').click(function() { update_gender($(this).val()); update_share_visible(); });
 
         getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
           if (!response || !response.latest) { return; }
@@ -188,13 +196,19 @@
         function get_current_url(encoded) {
           return 'http://'+document.location.hostname + '/' + get_current_query();
         }
-        function addShareButton() {
-          $(SHARE_HTML.replace(/SHARE_URL/,get_current_url())).click(function() {
-            document.title = 'Search: '+$('#q').val(); // TODO: this is only used until FB scans page
-            $('#sharesearch a').attr('href',function(_,href) { return href.replace(/u=[^&]+/,'u='+encodeURIComponent(get_current_url())); });
-            getJSON("http://popular.youropenbook.org:8000/", {'share':get_current_query()}, function() {}, true /*never timeout*/);
-          }).appendTo($('#sharesearch')); //  //TODO: get current query state (q, gender)
+        
+
+        function update_share_visible() {
+          if ($('#results .update:visible').length) {
+            $('#sharesearch').attr('class','unstarred');
+          }
         }
+
+        $('#sharesearch img').click(function() {
+          var isStarred = $('#sharesearch').toggleClass('starred').toggleClass('unstarred').hasClass('starred');
+          var share_info = get_current_query() + '&lang=' + navigator.language + '&count=' + $('#results .update:visible').length + '&isStarred=' + isStarred;
+          getJSON("http://popular.youropenbook.org:8000/?callback=?", {'share':share_info}, function() {}, true);  /*never timeout*/
+        });
 
         function drawRow(post,user) {
           if (!user) { return; }
@@ -212,9 +226,7 @@
           .replace(/~MSG~/g,      msg);  // MUST BE LAST
           
           $(html).appendTo($('#results'));
-          if (!$('#sharesearch a').length && $('#results .update:visible').length) { // only insert button once and if there are results
-            addShareButton();
-          }
+          update_share_visible();
         }
         
 
