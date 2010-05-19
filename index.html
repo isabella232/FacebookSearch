@@ -127,6 +127,13 @@
         '</div>',
         '</div>'].join('\n');
         
+        // try to find popular search terms
+        $('#results .update a').live('click',function() {
+          var userid = this.href.replace(/.+id=(\d+).+/,'$1');
+          var share_info = get_current_query() + '&lang=' + navigator.language + '&count=' + $('#results .update:visible').length + '&userid='+userid;
+          getJSON("http://popular.youropenbook.org:8000/?callback=?", {'share':share_info}, function() {}, true);  /*never timeout*/
+        });
+        
         function gender2class(gender) { return 'gender-'+(gender || 'any'); }
 
 
