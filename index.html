@@ -68,7 +68,7 @@
         function debug() { } // for production
 
         var MAX_REQUESTS = 20; // max number of jsonp requests to make 
-        var REQUEST_TIMEOUT = 15*1000;
+        var REQUEST_TIMEOUT = 60*1000;
 
         // so we can throttle if necessary
         function getJSON(url,args,callback,neverCancel) {
