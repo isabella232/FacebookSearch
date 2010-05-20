@@ -1,4 +1,4 @@
-* { margin: 0; padding: 0; border: 0; outline: 0; vertical-align: baseline; 
+* { margin: 0; padding: 0; border: 0; outline: 0; vertical-align: baseline;
     font-family: inherit; font-weight: inherit;  font-style: inherit; font-size: inherit; }
 table { border-collapse: collapse; border-spacing: 0; }
 ul, ol { list-style: none; }
@@ -30,18 +30,12 @@ input[type=text] {border: 1px solid #bfc6d9; font-size: 13px; padding: 2px; }
 input[type=radio] { margin: 0 0 0 10px; }
 #search { vertical-align: bottom; }
 #updates form { border-bottom: 1px solid #ccc; padding: 0 0 10px 0; }
-.examples { padding: 10px 0 10px 0; }
+.examples { padding: 10px 0 20px 0; }
 .examples a { padding: 0 0 0 10px; }
 #queryrate { float:right; }
 .invisible {display: none;}
 
 #results { padding: 10px; }
-
-#sharesearch { text-align:center; padding-bottom:10px; }
-#sharesearch img { cursor: pointer; }
-#sharesearch.unstarred .starred   { display:none; }
-#sharesearch.starred   .unstarred { display:none; }
-          
 .waitloading {  clear: both; text-align: center; }
 .update { padding: 0 0 20px 0; clear: both; }
 .person { float: left; width: 215px; margin: 0 0 40px 0; }
@@ -85,3 +79,6 @@ table.traffic_stats td {
 table.traffic_stats .amt {
     text-align: right;
 }
+
+#footer { text-align:center;}
+#footer img { vertical-align:middle;}
