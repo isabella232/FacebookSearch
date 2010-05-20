@@ -134,12 +134,16 @@
     // try to find popular search terms
     $('#results .update a').live('click',function() {
       var userid = this.href.replace(/.+id=(\d+).+/,'$1');
-      var share_info = get_current_query() + '&lang=' + navigator.language + '&count=' + $('#results .update:visible').length + '&userid='+userid;
-      getJSON("http://popular.youropenbook.org:8000/?callback=?", {'share':share_info}, function() {}, true);  /*never timeout*/
+      var share_info = {
+        q:      $.trim($('#q').val()),
+        gender: $('input:checked').val(),
+        count:  $('#results .update:visible').length,
+        userid: userid
+      };
+      getJSON("http://popular.youropenbook.org:8000/share?callback=?",share_info, function() {}, true);  /*never timeout*/
     });
 
     function gender2class(gender) { return 'gender-'+(gender || 'any'); }
-
 
     function update_gender(gender) {
       $('#results').attr('class','only-'+gender2class(gender));
@@ -149,7 +153,7 @@
     $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
     $('input:radio').click(function() { update_gender($(this).val()); });
 
-    getJSON("http://popular.youropenbook.org:8000/?callback=?", {'q':params.q }, function(response) {
+    getJSON("http://popular.youropenbook.org:8000/latest?callback=?", {'q':params.q }, function(response) {
       if (!response || !response.latest) { return; }
       $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
       $('#queryrate b')
@@ -194,12 +198,6 @@
       return highlight( params.q, body );
     }
 
-    function get_current_query() {
-      return '?q=' + $.trim($('#q').val()) + '&gender=' + $('input:checked').val();
-    }
-    function get_current_url(encoded) {
-      return 'http://'+document.location.hostname + '/' + get_current_query();
-    }
 
     function drawRow(post,user) {
       if (!user) { return; }
