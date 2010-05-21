@@ -48,8 +48,7 @@
         </form>
 
         <div class='examples invisible' id="latest">
-          <span id="examples">Recent Searches:<span></span></span>
-          <span id="queryrate"><b>??</b>k queries/hour</span>
+          <span id="examples">Recent Searches: <span id="qph"><b>??</b>k/hour</span></span>
         </div>
         <div id="results"></div>
         <div class="waitloading"><img src='images/spinner.gif'></div>
@@ -63,7 +62,7 @@
   $(function() {
     var STATS_SERVER = 'http://popular.youropenbook.org:8000';
     
-    var examples = shuffle(["cheated test", '"don\'t tell anyone"', "rectal exam", "control urges", '"lost my virginity"', "playing hooky", '"dna test"', '"divorce trial"', "professor asshole", '"going to a strip club"', '"boss is an asshole"', '"my dui"', '"I hate my boss"', '"I hate my job"', '"Having a wank"', '"I\'m not racist but" -pubs']);
+    var examples = shuffle(["cheated test", '"don\'t tell anyone"', "rectal exam", "control urges", '"lost my virginity"', "playing hooky", '"dna test"', '"divorce trial"', "professor asshole", '"going to a strip club"', '"boss is an asshole"', '"my dui"', '"I hate my boss"', '"I hate my job"', '"Having a wank"', '"I\'m not racist" -pubs']);
 
     var params={
       q:  examples[0],  // query str
@@ -161,7 +160,7 @@
     getJSON(STATS_SERVER + '/latest?callback=?', {'q':params.q }, function(response) {
       if (!response || !response.latest) { return; }
       $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
-      $('#queryrate b')
+      $('#qph b')
       .text( Math.floor(response.qpm*60/1000) ) // queries per hour in 1000s
       .attr('title',Math.round(10*response.qpm/60)/10 + ' queries per sec');
       $("#latest").show();
