@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" type="text/css" href="search.css" media="all">
   <style type="text/css">
-  #body { font-size:110%; }
+  #body { font-size:120%; }
 
   #gallery {
     width:450px;
@@ -17,12 +17,31 @@
   .slide {
     height: 450px;
   }
+  .slide_navigation {
+    position: absolute;
+    left: 125px;
+    width: 200;
+  }
+  .slide_navigation a {
+/*  (30 + 10) * 5 = 200, wish I could do this automagically   */
+    margin-right: 25px;
+    width: 8.333px;
+  }
+  a.active {
+    color: #000;
+  }
+  a.active:hover {
+    color: #000;
+    text-decoration: none;
+    cursor: default;
+  }
+  
   #gallery img.next { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
   #blue-arrow { position:absolute; top:306px; }
   a.next { float:right; }
   a.prev { float:left;  }
   h3 { font-weight:bold; }
-  .footer { padding-top: 20px;}
+  .footer { padding-top: 20px; position: relative;}
   .footer a {font-size: 120%;}
   .feedback {margin-bottom: 50px;}
   </style>
@@ -52,7 +71,7 @@
     <div id="body">		
       <div id="gallery">
         <ol >
-          <li class="slide" id="slide1">
+          <li class="slide" id="1">
             <h3>1 - Facebook's privacy options are little-used and overcomplicated</h3>
             <img class="next" src="images/facebook-slider0.png"/>
             <div>
@@ -60,24 +79,24 @@
               As <a href='http://youropenbook.org/' target='_blank'>Openbook's search service shows</a>, this results in many users sharing private details of their lives with the entire planet, without their knowledge or permission.
             </div>
           </li>
-          <li class="slide" id="slide2">
+          <li class="slide" id="2">
             <h3>2 - We say: make privacy clear</h3> 
             <img id='blue-arrow' src='images/blue-arrow.gif'/>
             <img class="next" src="images/facebook-slider1.png"/>
             <div class='caption'>
-              Here's how we think Facebook should address this problem: Add a prominent privacy control to  everyone's home page.
+              Facebook needs to add a prominent privacy control to everyone's home page.
               <br>&nbsp;<br>
               It's simple and it instantly communicates your privacy settings.
             </div>
           </li>
-          <li class="slide" id="slide3">
+          <li class="slide" id="3">
             <h3>3 - More detail with just a click</h3>
             <img class="next" src="images/facebook-slider2.png"/>
             <div class='caption'>
               Clicking the slider shows a quick breakdown of your current privacy settings.
             </div>
           </li>
-          <li class="slide" id="slide4">
+          <li class="slide" id="4">
             <h3>4 - Dragging to the right makes everything public</h3>
             <img class="next" src="images/facebook-slider3.png"/>
             <div class='caption'>
@@ -86,7 +105,7 @@
               Simple. Just how it should be.
             </div>
           </li>
-          <li class="slide" id="slide5">
+          <li class="slide" id="5">
             <h3>5 - As fine grained as you need</h3>
             <img class="next" src="images/facebook-slider4.png"/>
             <div class='caption'>
@@ -97,8 +116,17 @@
           </li>
         </ol>
         <div class='footer invisible'>
-          <a class="prev" href="#prev">&larr; Prev</a>  
-          <a class="next" href="#next">Next &rarr;</a>
+          <div class='container'><a class="prev" href="#prev">&larr; Prev</a></div>
+          <div class='container'><a class="next" href="#next">Next &rarr;</a></div>
+
+          <div class='slide_navigation'>
+            <a class="nav_link" id="link1" href="#1">1</a>
+            <a class="nav_link" id="link2" href="#2">2</a>
+            <a class="nav_link" id="link3" href="#3">3</a>
+            <a class="nav_link" id="link4" href="#4">4</a>
+            <a class="nav_link" id="link5" href="#5">5</a>
+            <a class="nav_link" id="link6" href="#6">6</a>
+          </div>
         </div>
       </div>
 
@@ -116,7 +144,7 @@
       if ($(id).length)
         showSlide($(id));
       else
-        showSlide($('#slide1'));
+        showSlide($('#1'));
     }
 
     function showSlide(slide) {
@@ -132,7 +160,9 @@
       }
       $slides.removeClass("current").hide();
       slide.addClass("current").show();
-      location.hash = slide[0].id
+      location.hash = slide[0].id;
+      $(".nav_link").removeClass("active");
+      $("#link" + slide[0].id).addClass("active");
       return false;
     }
     
