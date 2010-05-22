@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Openbook's proposed Privacy Controls for Facebook</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="search.css" media="all">
+  <style type="text/css">
+  #body { font-size:110%; }
+
+  #gallery {
+    width:400px;
+    height:450px;
+    margin:20px;
+    padding:20px;
+  }
+  #gallery img { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
+  a.next { float:right; }
+  h3 { font-weight:bold; }
+  </style>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+</head>
+<body>
+  <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16394554-1']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  }
+  )();
+  </script>
+
+  <div id="container">
+    <div id="head">		
+      <a href="http://youropenbook.org/"><img src="images/logo-openbook.png" alt="openbook" id="logo" width="184" height="45" /></a>
+    </div>
+    <div id="tag">
+      <h1>Openbook's proposed Privacy Controls for Facebook</h1>
+    </div>
+
+    <div id="body">		
+      <ol id="gallery">
+        <li class="slide current">
+          <a class="next" href="#next">Next &gt;&gt;</a>
+          <h3>1 - Facebook's current design buries privacy options</h3>
+          <img class="next" src="images/facebook-slider0.png"/>
+          <div>
+            Facebook currently has a <a href="http://www.nytimes.com/interactive/2010/05/12/business/facebook-privacy.html">bewildering number</a> of privacy settings.
+            As our site clearly shows, many users are unwittingly sharing private details of their lives to the whole world.
+          </div>
+        </li>
+        <li class="slide">
+          <a class="next" href="#next">Next &gt;&gt;</a>
+          <h3>2 - Our proposal: Add a privacy slider control</h3> 
+          <img class="next" src="images/facebook-slider1.png"/>
+          <div>
+            Here's how we think Facebook should fix this problem: Add a prominent privacy control to the user home page.
+            <br>&nbsp;<br>
+            It's simple and make's the user think about privacy.
+          </div>
+        </li>
+        <li class="slide">
+          <a class="next" href="#next">Next &gt;&gt;</a>
+          <h3>3 - Clicking the slider shows a summary</h3>
+          <img class="next" src="images/facebook-slider2.png"/>
+          <div>
+            Clicking the slider shows your current privacy settings.
+          </div>
+        </li>
+        <li class="slide">
+          <a class="next" href="#next">Next &gt;&gt;</a>
+          <h3>4 - Dragging to the right makes everything public</h3>
+          <img class="next" src="images/facebook-slider3.png"/>
+          <div>
+            Dragging to the right makes everything public. Dragging to the left makes everything private.
+            <br>&nbsp;<br>            
+            Simple. Just how it should be.
+          </div>
+        </li>
+        <li class="slide">
+          <a class="next" href="#next">Next &gt;&gt;</a>
+          <h3>5 - Fine-grain control if necessary</h3>
+          <img class="next" src="images/facebook-slider4.png"/>
+          <div>
+            Sophisticated users can customize their settings.
+          </div>
+        </li>
+      </ol>
+      <div>Let us know what you think:  <a href="mailto:facepalm.inquiries@gmail.com">facepalm.inquiries@gmail.com</a></div>
+    </div>
+  </div>
+  <script type="text/javascript">
+  $(function() {
+    var $slides = $('#gallery .slide');    
+    $slides.hide();
+    $('#gallery .current').show();
+    $('.next').click(function() {
+      var $curr = $('#gallery .current');
+      var $next = $curr.next();
+      if (!$next.length) { $next = $slides.eq(0); }
+      $curr.removeClass('current').hide();
+      $next.addClass('current').show();
+      return false;
+    });
+
+    // load the FB Like button async, wait until resources loaded, then show
+    $('<iframe id="like" class="invisible" src="http://www.facebook.com/plugins/like.php?href=http%253A%252F%252Fyouropenbook.org%252F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;font&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" allowTransparency="true"></iframe>').appendTo('#head');
+    setTimeout(function() { $('#like').show(); }, 1000);
+  });
+  </script>
+</body>
+</html>
