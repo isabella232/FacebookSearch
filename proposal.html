@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" href="search.css" media="all">
   <style type="text/css">
   #body { font-size:120%; }
-
+  .center { text-align:center;}
   #gallery {
     width:450px;
     margin:20px;
@@ -18,37 +18,33 @@
     height: 450px;
     margin-bottom: 20px;
   }
-  .slide_navigation {
-    position: absolute;
-    left: 125px;
-    width: 200;
-  }
-  .slide_navigation a {
-/*  (30 + 10) * 5 = 200, wish I could do this automagically   */
-    margin-right: 25px;
-    width: 8.333px;
-  }
-  a.active {
-    color: #000;
-  }
-  a.active:hover {
-    color: #000;
-    text-decoration: none;
-    cursor: default;
-  }
+  .footer { padding-top: 20px; text-align:center;}
+  .footer a {font-size: 120%;}
+  .footer a.active       { color:#000; font-weight:bold; }
+  .footer a.active:hover { color:#000; cursor:default; }
+  .footer a.off { color:gray; cursor:default; }
+  .footer a.off:hover { text-decoration:none;}
+  .footer a.nav_link { padding:10px; }
   .witharrow { position:relative;}
   #gallery img.next { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
   #gallery img.next { width:320px; height:320px; padding:0px; margin-top:20px; margin-bottom:20px; margin-left:50px; border:solid thin gray; cursor:pointer;}
-  #action           { font-size:20px;   }
+  #action           { font-size:15px; padding:80px 0px; }
+  #action b         { font-size:20px;   }
   #action p { margin-bottom: 15px; }
   #blue-arrow { position:absolute; top:130px }
   .caption {line-height:16px;}
   a.next { float:right; font-weight:bold; }
   a.prev { float:left;  font-weight:bold; }
   h3 { font-weight:bold; }
-  .footer { padding-top: 20px; position: relative;}
-  .footer a {font-size: 120%;}
   .feedback {margin-bottom: 50px;}
+  #sharecontainer { margin:50px 90px; }
+  .button        {font-size:16px;padding:6px;background:#F3F3F3;border:1px solid #CCC;-webkit-border-radius:9px;-moz-border-radius:9px;border-radius:9px; }
+  .button        {background-color:#5a74a9;border:1px solid #0166ff;color:#fff;font-weight:bold;padding:12px; margin-bottom:40px;}
+  .button:hover  {background-color:#82B0FF;}
+  .button:active {border:1px solid #fff}
+  a.button       {color:white;}
+  a.button:hover {text-decoration:none;}
+  #demand { margin-left: -10px; margin-top: 35px;}
   </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <!-- if javascript is enabled, then hide the slides until they have loaded -->
@@ -83,7 +79,8 @@
             <img class="next" src="images/facebook-slider0.png"/>
             <div class='caption'>
               Facebook has a <a href="http://www.nytimes.com/interactive/2010/05/12/business/facebook-privacy.html">bewildering number</a> of privacy settings.<br>&nbsp;<br>
-              As <a href='http://youropenbook.org/' target='_blank'>Openbook shows</a>, this results in many users sharing private details of their lives with the entire planet, without their knowledge or permission.
+              As <a href='http://youropenbook.org/' target='_blank'>Openbook shows</a>, this results in many users sharing private details of their lives with the entire planet, without their knowledge or permission.<br>&nbsp;<br>
+              <b>We think Facebook could do better...</b>
             </div>
           </li>
           <li class="slide witharrow" id="2">
@@ -91,7 +88,7 @@
             <img id='blue-arrow' src='images/blue-arrow.gif'/>
             <img class="next" src="images/facebook-slider1.png"/>
             <div class='caption'>
-              Facebook needs to add a prominent privacy control to everyone's home page.
+              Facebook should add a prominent privacy control to everyone's home page.
               <br>&nbsp;<br>
               It's simple and it instantly communicates your privacy settings.
             </div>
@@ -118,109 +115,116 @@
             <div class='caption'>
               Users can still customize their settings in detail.
               <br><br>
-              In addition, Facebook should publicly <b>commit to never moving the user's slider</b> to the right without their express permission.
+              Facebook should publicly <b>commit to never moving the user's slider</b> to the right without their express permission.
             </div>
           </li>
           <li class="slide" id="6">
-<!--             <h3>Let Facebook know!</h3> -->
-            <div class='caption' id="action">
-              <br><br><br>              <br><br>              <br><br>
-              <p>Hey Facebook, we want:</p><br><br>
+            <div id="action">
+              <p><b>It's up to you,</b><br><br>
+                tell Facebook you want:</p><br><br>
 
-              <p>Simple, easy to find privacy controls.</p>
-              <p>Promise that you won't mess with them.</p><br><br>
-
-              <p>Demand control! Share this link:</p>
-
-              <!-- AddToAny BEGIN -->
-              <a class="a2a_dd" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Fyouropenbook.org%2Fproposal&amp;linkname=Facebook%2C%20we%20want%20simple%20effective%20privacy%20controls%20%23openbook"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" style="border: none;" alt="Share/Bookmark"/></a>
+              <p>• Simple, easy to find privacy controls.</p>
+              <p>• A promise that Facebook won't mess with them.</p><br><br>
+  
+              <div id="sharecontainer">
+              <a class="a2a_dd button" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Fyouropenbook.org%2Fproposal&amp;linkname=Facebook%2C%20we%20want%20simple%20effective%20privacy%20controls%20%23openbook">
+                Tell your friends
+              </a>
+              <p id="demand"><b>Demand control!</b></p>
+              </div>
               <script type="text/javascript">
               var a2a_config = a2a_config || {};
-              a2a_config.linkname = "Hey Facebook, we want simple & effective privacy controls! #openbook";
+              a2a_config.linkname = "Hey Facebook, we want these privacy controls! #openbook";
               a2a_config.linkurl = "http://youropenbook.org/proposal";
               a2a_config.onclick = 1;
               a2a_config.show_title = 1;
               </script>
               <script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
               <!-- AddToAny END -->
-            </div>
+
+              </div>
           </li>
 
         </ol>
         <div class='footer invisible'>
-          <div class='container'><a class="prev" href="#prev">&larr; Prev</a></div>
-          <div class='container'><a class="next" href="#next">Next &rarr;</a></div>
+          <a class="prev" href="#prev">&larr; Prev</a>
+          <a class="next" href="#next">Next &rarr;</a>
 
-          <div class='slide_navigation'>
-            <a class="nav_link" id="link1" href="#1">1</a>
-            <a class="nav_link" id="link2" href="#2">2</a>
-            <a class="nav_link" id="link3" href="#3">3</a>
-            <a class="nav_link" id="link4" href="#4">4</a>
-            <a class="nav_link" id="link5" href="#5">5</a>
-            <a class="nav_link" id="link6" href="#6">6</a>
-        </div>
+          <a class="nav_link" id="link1" href="#1">&nbsp;1&nbsp;</a>
+          <a class="nav_link" id="link2" href="#2">&nbsp;2&nbsp;</a>
+          <a class="nav_link" id="link3" href="#3">&nbsp;3&nbsp;</a>
+          <a class="nav_link" id="link4" href="#4">&nbsp;4&nbsp;</a>
+          <a class="nav_link" id="link5" href="#5">&nbsp;5&nbsp;</a>
+          <a class="nav_link" id="link6" href="#6">&nbsp;6&nbsp;</a>
+
       </div>
       </div>
 
-      <div class="feedback">Let us know what you think:  <a href="mailto:facepalm.inquiries@gmail.com">facepalm.inquiries@gmail.com</a></div>
+      <div class="feedback">We value your <a href="mailto:Openbook%20<facepalm.inquiries@gmail.com>?subject=Openbook%20privacy%20proposal">feedback</a></div>
     </div>
   </div>
   <script type="text/javascript">
   $(function() {
-    $(".footer").show()
+    $(".footer").show();
     var $slides = $('#gallery .slide');
-    hashChange();
     
     function hashChange() {
       var id = location.hash;
-      if ($(id).length)
+      if ($(id).length) {
         showSlide($(id));
-      else
+      } else {
         showSlide($('#1'));
+      }
     }
 
+    var $next_arrow = $("a.next");
+    var $prev_arrow = $("a.prev");
+    
     function showSlide(slide) {
       if (!slide.length) { return false; } // if you click final image
-      if (!slide.next().length) {
-        $("a.next").hide()
-      }
-      else  {
-        $("a.next").show()
-        if (!slide.prev().length)
-          $("a.prev").hide()
-        else
-          $("a.prev").show();
-      }
+      
+      //$next_arrow.attr('class', 'next '+(slide.next().length ? 'active' : 'inactive'));
+      //$prev_arrow.attr('class', 'next '+(slide.prev().length ? 'active' : 'inactive'));
+
+      $next_arrow.toggleClass('off', !slide.next().length);
+      $prev_arrow.toggleClass('off', !slide.prev().length);
+
+
       $slides.removeClass("current").hide();
       slide.addClass("current").show();
       var num = slide[0].id;
       $(".nav_link").removeClass("active");
       $("#link" + num).addClass("active");
-      location.hash = (num === "1") ? "" : num;
+      location.hash = num;
       oldHash = location.hash;
       return false;
     }
     
-    $('.next').click(function() {
-      return showSlide($(".current").next())
-    });
-    
-    $(".prev").click(function() {
-      return showSlide($(".current").prev())
-    })
+    function forward() {
+      showSlide($(".current").next());
+      return false;
+    }
+    function back() {
+      showSlide($(".current").prev());
+      return false;
+    }
+    $('.next').click(forward);
+    $(".prev").click(back);
 
+    $(document).keydown(function(e) {
+      if (e.which===39 || e.which===40) { return forward(); }
+      if (e.which===37 || e.which===38) { return back(); }
+    });
+
+    hashChange();
     var oldHash = location.hash;
     setInterval(function() {
       if (location.hash !== oldHash) {
         oldHash = location.hash;
         hashChange();
       }
-    }, 100)
-    
+    }, 100);
 
-    // load the FB Like button async, wait until resources loaded, then show
-    $('<iframe id="like" class="invisible" src="http://www.facebook.com/plugins/like.php?href=http%253A%252F%252Fyouropenbook.org%252F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;font&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" allowTransparency="true"></iframe>').appendTo('#head');
-    setTimeout(function() { $('#like').show(); }, 1000);
   });
   </script>
 </body>
