@@ -51,6 +51,13 @@
   .footer { padding-top: 20px; position: relative;}
   .footer a {font-size: 120%;}
   .feedback {margin-bottom: 50px;}
+  #sharecontainer { margin:50px 90px; }
+  .button        {font-size:16px;padding:6px;background:#F3F3F3;border:1px solid #CCC;-webkit-border-radius:9px;-moz-border-radius:9px;border-radius:9px; }
+  .button        {background-color:#0166ff;border:1px solid #0166ff;color:#fff;font-weight:bold;padding:12px}
+  .button:hover  {background-color:#82B0FF;}
+  .button:active {border:1px solid #fff}
+  a.button       {color:white;}
+  a.button:hover {text-decoration:none;}
   </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
   <!-- if javascript is enabled, then hide the slides until they have loaded -->
@@ -133,14 +140,16 @@
               <p>• Simple, easy to find privacy controls.</p>
               <p>• A promise that Facebook won't mess with them.</p><br><br>
 
-              <p>Demand control!</p><br>
-              <b>Share this link:</b>
-
-              <!-- AddToAny BEGIN -->
-              <a class="a2a_dd" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Fyouropenbook.org%2Fproposal&amp;linkname=Facebook%2C%20we%20want%20simple%20effective%20privacy%20controls%20%23openbook"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" style="border: none;" alt="Share/Bookmark"/></a>
+              <p>Demand control!</p>
+  
+              <div id="sharecontainer">
+              <a class="a2a_dd button" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Fyouropenbook.org%2Fproposal&amp;linkname=Facebook%2C%20we%20want%20simple%20effective%20privacy%20controls%20%23openbook">
+                Share this page
+              </a>
+              </div>
               <script type="text/javascript">
               var a2a_config = a2a_config || {};
-              a2a_config.linkname = "Hey Facebook, we want simple & effective privacy controls! #openbook";
+              a2a_config.linkname = "Hey Facebook, we want these privacy controls! #openbook";
               a2a_config.linkurl = "http://youropenbook.org/proposal";
               a2a_config.onclick = 1;
               a2a_config.show_title = 1;
