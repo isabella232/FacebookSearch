@@ -69,10 +69,8 @@
   $(function() {
     var STATS_SERVER = 'http://popular.youropenbook.org:8000';
     
-    var examples = shuffle(["cheated test", '"don\'t tell anyone"', "rectal exam", "control urges", '"lost my virginity"', "playing hooky", '"dna test"', '"divorce trial"', "professor asshole", '"going to a strip club"', '"boss is an asshole"', '"my dui"', '"I hate my boss"', '"I hate my job"', '"Having a wank"', '"I\'m not racist" -pubs']);
-
     var params={
-      q:  examples[0],  // query str
+      q:  '',           // query str
       gender:  'any',   // male female any
       maxlen:  500      // max message len
     };
@@ -160,17 +158,22 @@
       $('#results').attr('class','only-'+gender2class(gender));
     }
 
-    $('#q').attr('value',params.q);
     $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
     $('input:radio').click(function() { update_gender($(this).val()); });
 
     getJSON(STATS_SERVER + '/latest?callback=?', {'q':params.q }, function(response) {
       if (!response || !response.latest) { return; }
+      shuffle(response.latest);
       $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
       $('#qph b')
       .text( Math.floor(response.qpm*60/1000) ) // queries per hour in 1000s
       .attr('title',Math.round(10*response.qpm/60)/10 + ' queries per sec');
       $("#latest").show();
+      if (!params.q) {
+        params.q = response.latest[0];
+        $('#q').val(params.q);
+        loadFirst();
+      }
     });
 
     function loadMore() {
@@ -189,17 +192,24 @@
       }
     }
 
-    var exclusions = [];
-    var exclusion_matcher = /( |^)\-(\"(.*?)\"|(.*?)( |$))/;
-    var match;
-    var query = params.q;
-    while( (match = query.match(exclusion_matcher)) ) {
-      var reg = new RegExp(match[3] || match[4], 'i');
-      exclusions.push(reg);
-      query = query.replace(exclusion_matcher, ' ');
-    }
-    getJSON( 'http://graph.facebook.com/search?callback=?', {'q':query, 'type':'post'}, handleSearchResults);
+    loadFirst();
 
+    var exclusions = [];  // TODO: clean up globals in this file
+    function loadFirst() {
+      var query = params.q;
+      if (!query) { return; }
+      var exclusion_matcher = /( |^)\-(\"(.*?)\"|(.*?)( |$))/;
+      var match;
+      while( (match = query.match(exclusion_matcher)) ) {
+        var reg = new RegExp(match[3] || match[4], 'i');
+        exclusions.push(reg);
+        query = query.replace(exclusion_matcher, ' ');
+      }
+      getJSON( 'http://graph.facebook.com/search?callback=?', {'q':query, 'type':'post'}, handleSearchResults);
+    }
+
+
+    
     function body(post) {
       var body = $.map(['message','caption','description','name'],function(prop) {return post[prop] || '';}).join(' ');
       if (body.length > params.maxlen) {
