@@ -37,9 +37,13 @@
   }
   
   #gallery img.next { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
+  #gallery img.next { width:320px; height:320px; padding:0px; margin-top:20px; margin-bottom:20px; margin-left:50px; border:solid thin gray; cursor:pointer;}
+  #action           { width:320px; height:320px; padding:0px; margin-top:20px; margin-bottom:20px; margin-left: 3px; font-size:20px;   }
+  #action p { padding-bottom:5px;}
   #blue-arrow { position:absolute; top:306px; }
-  a.next { float:right; }
-  a.prev { float:left;  }
+  .caption {line-height:16px;}
+  a.next { float:right; font-weight:bold; }
+  a.prev { float:left;  font-weight:bold; }
   h3 { font-weight:bold; }
   .footer { padding-top: 20px; position: relative;}
   .footer a {font-size: 120%;}
@@ -74,9 +78,9 @@
           <li class="slide" id="1">
             <h3>1 - Facebook's privacy options are little-used and overcomplicated</h3>
             <img class="next" src="images/facebook-slider0.png"/>
-            <div>
+            <div class='caption'>
               Facebook has a <a href="http://www.nytimes.com/interactive/2010/05/12/business/facebook-privacy.html">bewildering number</a> of privacy settings.<br>&nbsp;<br>
-              As <a href='http://youropenbook.org/' target='_blank'>Openbook's search service shows</a>, this results in many users sharing private details of their lives with the entire planet, without their knowledge or permission.
+              As <a href='http://youropenbook.org/' target='_blank'>Openbook shows</a>, this results in many users sharing private details of their lives with the entire planet, without their knowledge or permission.
             </div>
           </li>
           <li class="slide" id="2">
@@ -111,9 +115,35 @@
             <div class='caption'>
               Users can still customize their settings in detail.
               <br><br>
-              In addition, Facebook should publicly commit to never moving the user's slider to the right without their express permission.
+              In addition, Facebook should publicly <b>commit to never moving the user's slider</b> to the right without their express permission.
             </div>
           </li>
+          <li class="slide" id="6">
+            <h3>6 - Let Facebook know!</h3>
+            <div id="action">
+              <p>Hey Facebook, we want:</p>
+
+              <p>Simple privacy controls</p>
+              <p>A commitment that you won't mess with them</p>
+
+              <p>Demaind control! Share this link:</p>
+
+              <!-- AddToAny BEGIN -->
+              <a class="a2a_dd" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Fyouropenbook.org%2Fproposal&amp;linkname=Facebook%2C%20we%20want%20simple%20effective%20privacy%20controls%20%23openbook"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" border="0" alt="Share/Bookmark"/></a>
+              <script type="text/javascript">
+              var a2a_config = a2a_config || {};
+              a2a_config.linkname = "Hey Facebook, we want simple & effective privacy controls! #openbook";
+              a2a_config.linkurl = "http://youropenbook.org/proposal";
+              a2a_config.onclick = 1;
+              a2a_config.show_title = 1;
+              </script>
+              <script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
+              <!-- AddToAny END -->
+            </div>
+              <div class='caption'>
+            </div>
+          </li>
+
         </ol>
         <div class='footer invisible'>
           <div class='container'><a class="prev" href="#prev">&larr; Prev</a></div>
@@ -126,8 +156,8 @@
             <a class="nav_link" id="link4" href="#4">4</a>
             <a class="nav_link" id="link5" href="#5">5</a>
             <a class="nav_link" id="link6" href="#6">6</a>
-          </div>
         </div>
+      </div>
       </div>
 
       <div class="feedback">Let us know what you think:  <a href="mailto:facepalm.inquiries@gmail.com">facepalm.inquiries@gmail.com</a></div>
@@ -148,6 +178,7 @@
     }
 
     function showSlide(slide) {
+      if (!slide.length) { return false; } // if you click final image
       if (!slide.next().length) {
         $("a.next").hide()
       }
