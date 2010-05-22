@@ -30,7 +30,6 @@
   }
   a.active {
     color: #000;
-    font-weight:bold;
   }
   a.active:hover {
     color: #000;
@@ -40,8 +39,7 @@
   .witharrow { position:relative;}
   #gallery img.next { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
   #gallery img.next { width:320px; height:320px; padding:0px; margin-top:20px; margin-bottom:20px; margin-left:50px; border:solid thin gray; cursor:pointer;}
-  #action           { font-size:15px; padding:80px 0px; }
-  #action b         { font-size:20px;   }
+  #action           { font-size:20px;   }
   #action p { margin-bottom: 15px; }
   #blue-arrow { position:absolute; top:130px }
   .caption {line-height:16px;}
@@ -85,8 +83,7 @@
             <img class="next" src="images/facebook-slider0.png"/>
             <div class='caption'>
               Facebook has a <a href="http://www.nytimes.com/interactive/2010/05/12/business/facebook-privacy.html">bewildering number</a> of privacy settings.<br>&nbsp;<br>
-              As <a href='http://youropenbook.org/' target='_blank'>Openbook shows</a>, this results in many users sharing private details of their lives with the entire planet, without their knowledge or permission.<br>&nbsp;<br>
-              <a class="next" style="float:left;" href="#next">We think Facebook could do better...</a>
+              As <a href='http://youropenbook.org/' target='_blank'>Openbook shows</a>, this results in many users sharing private details of their lives with the entire planet, without their knowledge or permission.
             </div>
           </li>
           <li class="slide witharrow" id="2">
@@ -94,7 +91,7 @@
             <img id='blue-arrow' src='images/blue-arrow.gif'/>
             <img class="next" src="images/facebook-slider1.png"/>
             <div class='caption'>
-              Facebook should add a prominent privacy control to everyone's home page.
+              Facebook needs to add a prominent privacy control to everyone's home page.
               <br>&nbsp;<br>
               It's simple and it instantly communicates your privacy settings.
             </div>
@@ -121,20 +118,19 @@
             <div class='caption'>
               Users can still customize their settings in detail.
               <br><br>
-              Facebook should publicly <b>commit to never moving the user's slider</b> to the right without their express permission.
+              In addition, Facebook should publicly <b>commit to never moving the user's slider</b> to the right without their express permission.
             </div>
           </li>
           <li class="slide" id="6">
-            <div id="action">
-              <div class='vmiddle'>
-              <p><b>It's up to you,</b><br><br>
-                tell Facebook you want:</p><br><br>
+<!--             <h3>Let Facebook know!</h3> -->
+            <div class='caption' id="action">
+              <br><br><br>              <br><br>              <br><br>
+              <p>Hey Facebook, we want:</p><br><br>
 
-              <p>• Simple, easy to find privacy controls.</p>
-              <p>• A promise that Facebook won't mess with them.</p><br><br>
+              <p>Simple, easy to find privacy controls.</p>
+              <p>Promise that you won't mess with them.</p><br><br>
 
-              <p>Demand control!</p><br>
-              <b>Share this link:</b>
+              <p>Demand control! Share this link:</p>
 
               <!-- AddToAny BEGIN -->
               <a class="a2a_dd" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Fyouropenbook.org%2Fproposal&amp;linkname=Facebook%2C%20we%20want%20simple%20effective%20privacy%20controls%20%23openbook"><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" style="border: none;" alt="Share/Bookmark"/></a>
@@ -147,7 +143,6 @@
               </script>
               <script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
               <!-- AddToAny END -->
-              </div>
             </div>
           </li>
 
@@ -157,46 +152,44 @@
           <div class='container'><a class="next" href="#next">Next &rarr;</a></div>
 
           <div class='slide_navigation'>
-            <a class="nav_link" id="link1" href="#1">&nbsp;1&nbsp;</a>
-            <a class="nav_link" id="link2" href="#2">&nbsp;2&nbsp;</a>
-            <a class="nav_link" id="link3" href="#3">&nbsp;3&nbsp;</a>
-            <a class="nav_link" id="link4" href="#4">&nbsp;4&nbsp;</a>
-            <a class="nav_link" id="link5" href="#5">&nbsp;5&nbsp;</a>
-            <a class="nav_link" id="link6" href="#6">&nbsp;6&nbsp;</a>
+            <a class="nav_link" id="link1" href="#1">1</a>
+            <a class="nav_link" id="link2" href="#2">2</a>
+            <a class="nav_link" id="link3" href="#3">3</a>
+            <a class="nav_link" id="link4" href="#4">4</a>
+            <a class="nav_link" id="link5" href="#5">5</a>
+            <a class="nav_link" id="link6" href="#6">6</a>
         </div>
       </div>
       </div>
 
-      <div class="feedback">We value your <a href="mailto:Openbook%20<facepalm.inquiries@gmail.com>?subject=Openbook%20privacy%20proposal">feedback</a></div>
+      <div class="feedback">Let us know what you think:  <a href="mailto:facepalm.inquiries@gmail.com">facepalm.inquiries@gmail.com</a></div>
     </div>
   </div>
   <script type="text/javascript">
   $(function() {
-    $(".footer").show();
+    $(".footer").show()
     var $slides = $('#gallery .slide');
     hashChange();
     
     function hashChange() {
       var id = location.hash;
-      if ($(id).length) {
+      if ($(id).length)
         showSlide($(id));
-      } else {
+      else
         showSlide($('#1'));
-      }
     }
 
     function showSlide(slide) {
       if (!slide.length) { return false; } // if you click final image
       if (!slide.next().length) {
-        $("a.next").hide();
+        $("a.next").hide()
       }
       else  {
-        $("a.next").show();
-        if (!slide.prev().length) {
-          $("a.prev").hide();
-        } else {
+        $("a.next").show()
+        if (!slide.prev().length)
+          $("a.prev").hide()
+        else
           $("a.prev").show();
-        }
       }
       $slides.removeClass("current").hide();
       slide.addClass("current").show();
@@ -207,12 +200,12 @@
     }
     
     $('.next').click(function() {
-      return showSlide($(".current").next());
+      return showSlide($(".current").next())
     });
     
     $(".prev").click(function() {
-      return showSlide($(".current").prev());
-    });
+      return showSlide($(".current").prev())
+    })
 
     var oldHash = location.hash;
     setInterval(function() {
@@ -220,7 +213,7 @@
         oldHash = location.hash;
         hashChange();
       }
-    },300);
+    })
     
 
     // load the FB Like button async, wait until resources loaded, then show
