@@ -17,8 +17,10 @@
   .slide {
     height: 450px;
   }
-  #gallery img { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
+  #gallery img.next { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
+  #blue-arrow { position:absolute; top:306px; }
   a.next { float:right; }
+  a.prev { float:left;  }
   h3 { font-weight:bold; }
   .footer { padding-top: 20px;}
   .footer a {font-size: 120%;}
@@ -60,6 +62,7 @@
           </li>
           <li class="slide" id="slide2">
             <h3>2 - We say: make privacy clear</h3> 
+            <img id='blue-arrow' src='images/blue-arrow.gif'/>
             <img class="next" src="images/facebook-slider1.png"/>
             <div class='caption'>
               Here's how we think Facebook should address this problem: Add a prominent privacy control to  everyone's home page.
@@ -85,15 +88,14 @@
           </li>
           <li class="slide" id="slide5">
             <h3>5 - As fine grained as you need</h3>
-            <img src="images/facebook-slider4.png"/>
+            <img class="next" src="images/facebook-slider4.png"/>
             <div class='caption'>
               Users can still customize their settings in detail.
             </div>
           </li>
         </ol>
         <div class='footer invisible'>
-          <a class="prev" href="#prev">&larr; Prev</a>
-          
+          <a class="prev" href="#prev">&larr; Prev</a>  
           <a class="next" href="#next">Next &rarr;</a>
         </div>
       </div>
@@ -117,14 +119,14 @@
 
     function showSlide(slide) {
       if (!slide.next().length) {
-        $(".next").hide()
+        $("a.next").hide()
       }
       else  {
-        $(".next").show()
+        $("a.next").show()
         if (!slide.prev().length)
-          $(".prev").hide()
+          $("a.prev").hide()
         else
-          $(".prev").show();
+          $("a.prev").show();
       }
       $slides.removeClass("current").hide();
       slide.addClass("current").show();
