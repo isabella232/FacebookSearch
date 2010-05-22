@@ -193,9 +193,10 @@
       }
       $slides.removeClass("current").hide();
       slide.addClass("current").show();
-      location.hash = slide[0].id;
+      var num = slide[0].id;
       $(".nav_link").removeClass("active");
-      $("#link" + slide[0].id).addClass("active");
+      $("#link" + num).addClass("active");
+      location.hash = num === "1" ? "" : num;
       return false;
     }
     
