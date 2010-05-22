@@ -28,15 +28,11 @@
     margin-right: 25px;
     width: 8.333px;
   }
-  a.active {
-    color: #000;
-    font-weight:bold;
-  }
-  a.active:hover {
-    color: #000;
-    text-decoration: none;
-    cursor: default;
-  }
+  .footer a.active       { color:#000; font-weight:bold; }
+  .footer a.active:hover { color:#000; cursor:default; }
+  .footer a.off { color:gray; cursor:default; }
+  .footer a.off:hover { text-decoration:none;}
+  
   .witharrow { position:relative;}
   #gallery img.next { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
   #gallery img.next { width:320px; height:320px; padding:0px; margin-top:20px; margin-bottom:20px; margin-left:50px; border:solid thin gray; cursor:pointer;}
@@ -182,7 +178,6 @@
   $(function() {
     $(".footer").show();
     var $slides = $('#gallery .slide');
-    hashChange();
     
     function hashChange() {
       var id = location.hash;
@@ -193,19 +188,19 @@
       }
     }
 
+    var $next_arrow = $("a.next");
+    var $prev_arrow = $("a.prev");
+    
     function showSlide(slide) {
       if (!slide.length) { return false; } // if you click final image
-      if (!slide.next().length) {
-        $("a.next").hide();
-      }
-      else  {
-        $("a.next").show();
-        if (!slide.prev().length) {
-          $("a.prev").hide();
-        } else {
-          $("a.prev").show();
-        }
-      }
+      
+      //$next_arrow.attr('class', 'next '+(slide.next().length ? 'active' : 'inactive'));
+      //$prev_arrow.attr('class', 'next '+(slide.prev().length ? 'active' : 'inactive'));
+
+      $next_arrow.toggleClass('off', !slide.next().length);
+      $prev_arrow.toggleClass('off', !slide.prev().length);
+
+
       $slides.removeClass("current").hide();
       slide.addClass("current").show();
       var num = slide[0].id;
@@ -224,6 +219,7 @@
       return showSlide($(".current").prev());
     });
 
+    hashChange();
     var oldHash = location.hash;
     setInterval(function() {
       if (location.hash !== oldHash) {
