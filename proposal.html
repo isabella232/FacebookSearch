@@ -16,6 +16,7 @@
   }
   .slide {
     height: 450px;
+    margin-bottom: 20px;
   }
   .slide_navigation {
     position: absolute;
@@ -35,12 +36,12 @@
     text-decoration: none;
     cursor: default;
   }
-  
+  .witharrow { position:relative;}
   #gallery img.next { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
   #gallery img.next { width:320px; height:320px; padding:0px; margin-top:20px; margin-bottom:20px; margin-left:50px; border:solid thin gray; cursor:pointer;}
   #action           { font-size:20px;   }
   #action p { margin-bottom: 15px; }
-  #blue-arrow { position:absolute; top:306px; }
+  #blue-arrow { position:absolute; top:130px }
   .caption {line-height:16px;}
   a.next { float:right; font-weight:bold; }
   a.prev { float:left;  font-weight:bold; }
@@ -50,6 +51,8 @@
   .feedback {margin-bottom: 50px;}
   </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <!-- if javascript is enabled, then hide the slides until they have loaded -->
+  <script>document.write('<style>.slide { display:none; }</style>');</script>
 </head>
 <body>
   <script type="text/javascript">
@@ -83,7 +86,7 @@
               As <a href='http://youropenbook.org/' target='_blank'>Openbook shows</a>, this results in many users sharing private details of their lives with the entire planet, without their knowledge or permission.
             </div>
           </li>
-          <li class="slide" id="2">
+          <li class="slide witharrow" id="2">
             <h3>We say: make privacy clear</h3> 
             <img id='blue-arrow' src='images/blue-arrow.gif'/>
             <img class="next" src="images/facebook-slider1.png"/>
