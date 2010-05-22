@@ -18,21 +18,13 @@
     height: 450px;
     margin-bottom: 20px;
   }
-  .slide_navigation {
-    position: absolute;
-    left: 125px;
-    width: 200;
-  }
-  .slide_navigation a {
-/*  (30 + 10) * 5 = 200, wish I could do this automagically   */
-    margin-right: 25px;
-    width: 8.333px;
-  }
+  .footer { padding-top: 20px; text-align:center;}
+  .footer a {font-size: 120%;}
   .footer a.active       { color:#000; font-weight:bold; }
   .footer a.active:hover { color:#000; cursor:default; }
   .footer a.off { color:gray; cursor:default; }
   .footer a.off:hover { text-decoration:none;}
-  
+  .footer a.nav_link { padding:10px; }
   .witharrow { position:relative;}
   #gallery img.next { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
   #gallery img.next { width:320px; height:320px; padding:0px; margin-top:20px; margin-bottom:20px; margin-left:50px; border:solid thin gray; cursor:pointer;}
@@ -44,8 +36,6 @@
   a.next { float:right; font-weight:bold; }
   a.prev { float:left;  font-weight:bold; }
   h3 { font-weight:bold; }
-  .footer { padding-top: 20px; position: relative;}
-  .footer a {font-size: 120%;}
   .feedback {margin-bottom: 50px;}
   #sharecontainer { margin:50px 90px; }
   .button        {font-size:16px;padding:6px;background:#F3F3F3;border:1px solid #CCC;-webkit-border-radius:9px;-moz-border-radius:9px;border-radius:9px; }
@@ -157,17 +147,16 @@
 
         </ol>
         <div class='footer invisible'>
-          <div class='container'><a class="prev" href="#prev">&larr; Prev</a></div>
-          <div class='container'><a class="next" href="#next">Next &rarr;</a></div>
+          <a class="prev" href="#prev">&larr; Prev</a>
+          <a class="next" href="#next">Next &rarr;</a>
 
-          <div class='slide_navigation'>
-            <a class="nav_link" id="link1" href="#1">&nbsp;1&nbsp;</a>
-            <a class="nav_link" id="link2" href="#2">&nbsp;2&nbsp;</a>
-            <a class="nav_link" id="link3" href="#3">&nbsp;3&nbsp;</a>
-            <a class="nav_link" id="link4" href="#4">&nbsp;4&nbsp;</a>
-            <a class="nav_link" id="link5" href="#5">&nbsp;5&nbsp;</a>
-            <a class="nav_link" id="link6" href="#6">&nbsp;6&nbsp;</a>
-        </div>
+          <a class="nav_link" id="link1" href="#1">&nbsp;1&nbsp;</a>
+          <a class="nav_link" id="link2" href="#2">&nbsp;2&nbsp;</a>
+          <a class="nav_link" id="link3" href="#3">&nbsp;3&nbsp;</a>
+          <a class="nav_link" id="link4" href="#4">&nbsp;4&nbsp;</a>
+          <a class="nav_link" id="link5" href="#5">&nbsp;5&nbsp;</a>
+          <a class="nav_link" id="link6" href="#6">&nbsp;6&nbsp;</a>
+
       </div>
       </div>
 
