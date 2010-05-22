@@ -167,29 +167,31 @@
   </div>
   <script type="text/javascript">
   $(function() {
-    $(".footer").show()
+    $(".footer").show();
     var $slides = $('#gallery .slide');
     hashChange();
     
     function hashChange() {
       var id = location.hash;
-      if ($(id).length)
+      if ($(id).length) {
         showSlide($(id));
-      else
+      } else {
         showSlide($('#1'));
+      }
     }
 
     function showSlide(slide) {
       if (!slide.length) { return false; } // if you click final image
       if (!slide.next().length) {
-        $("a.next").hide()
+        $("a.next").hide();
       }
       else  {
-        $("a.next").show()
-        if (!slide.prev().length)
-          $("a.prev").hide()
-        else
+        $("a.next").show();
+        if (!slide.prev().length) {
+          $("a.prev").hide();
+        } else {
           $("a.prev").show();
+        }
       }
       $slides.removeClass("current").hide();
       slide.addClass("current").show();
@@ -200,12 +202,12 @@
     }
     
     $('.next').click(function() {
-      return showSlide($(".current").next())
+      return showSlide($(".current").next());
     });
     
     $(".prev").click(function() {
-      return showSlide($(".current").prev())
-    })
+      return showSlide($(".current").prev());
+    });
 
     var oldHash = location.hash;
     setInterval(function() {
@@ -213,7 +215,7 @@
         oldHash = location.hash;
         hashChange();
       }
-    })
+    },300);
     
 
     // load the FB Like button async, wait until resources loaded, then show
