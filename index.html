@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="title" content="See what I found on Openbook" />
-  <meta name="description" content="Openbook - Connect and share whether you want to or not" />
-  <link rel="image_src" href="http://youropenbook.org/images/openbook-logo-90.jpg" />
+  <meta name="description" content="Openbook - See what's public on Facebook" />
   <title>Openbook - Connect and share whether you want to or not</title>
   <meta charset="utf-8" />
   <link rel="stylesheet" type="text/css" href="search.css" media="all">
+  <style type="text/css">
+  #sharecontainer { position:absolute; left:206px; top:41px; }
+  .button        {font-size:12px;padding:6px;-webkit-border-radius:7px;-moz-border-radius:7px;border-radius:7px;background-color:#5a74a9;color:#fff;font-weight:bold }
+  .button:hover  {background-color:#82B0FF;}
+  .button:active {border:1px solid #fff}
+  a.button       {color:white;}
+  a.button:hover {text-decoration:none;}
+  </style>
 </head>
 <body>
   <script type="text/javascript">
@@ -25,6 +31,7 @@
   <div id="container">
     <div id="head">
       <a href="http://youropenbook.org/"><img src="images/logo-openbook.png" alt="openbook" id="logo" width="184" height="45" /></a>
+      <a id="sharecontainer" class="button" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Fyouropenbook.org%2F&amp;linkname=Openbook%20-%20See%20what's%20public%20on%20Facebook">Share page</a>
       <div id="quote">
         <a href="http://www.businessinsider.com/well-these-new-zuckerberg-ims-wont-help-facebooks-privacy-problems-2010-5">&#8220;They 'trust me'. Dumb fucks.&#8221;</a>
       </div>
@@ -308,11 +315,6 @@
       return arr;
     }
   });
-  
-  // load the FB Like button async, wait until resources loaded, then show
-  $('<iframe id="like" class="invisible" src="http://www.facebook.com/plugins/like.php?href=http%253A%252F%252Fyouropenbook.org%252F&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;font&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" allowTransparency="true"></iframe>').appendTo('#head');
-  setTimeout(function() { $('#like').show(); }, 1000);
-
   </script>
 </body>
 </html>
