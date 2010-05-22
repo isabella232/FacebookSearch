@@ -195,17 +195,25 @@
       var num = slide[0].id;
       $(".nav_link").removeClass("active");
       $("#link" + num).addClass("active");
-      location.hash = (num === "1") ? "" : num;
+      location.hash = num;
       oldHash = location.hash;
       return false;
     }
     
-    $('.next').click(function() {
-      return showSlide($(".current").next());
-    });
-    
-    $(".prev").click(function() {
-      return showSlide($(".current").prev());
+    function forward() {
+      showSlide($(".current").next());
+      return false;
+    }
+    function back() {
+      showSlide($(".current").prev());
+      return false;
+    }
+    $('.next').click(forward);
+    $(".prev").click(back);
+
+    $(document).keydown(function(e) {
+      if (e.which===39 || e.which===40) { return forward(); }
+      if (e.which===37 || e.which===38) { return back(); }
     });
 
     hashChange();
