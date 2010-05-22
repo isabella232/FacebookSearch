@@ -12,6 +12,7 @@
   .button:active {border:1px solid #fff}
   a.button       {color:white;}
   a.button:hover {text-decoration:none;}
+  .waitloading   {display:none; margin-left:100px;}
   </style>
 </head>
 <body>
@@ -58,6 +59,7 @@
           <span id="examples">Recent Searches: <span id="qph"><b>??</b>k/hour</span></span>
         </div>
         <div id="results"></div>
+        <div style="clear:both"></div>
         <div class="waitloading"><img src='images/spinner.gif'></div>
         <div id="finished">No more results. Try another search!</div>
       </div>
@@ -158,6 +160,7 @@
       $('#results').attr('class','only-'+gender2class(gender));
     }
 
+    if (params.q) { $('#q').val(params.q); }
     $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
     $('input:radio').click(function() { update_gender($(this).val()); });
 
@@ -187,6 +190,7 @@
     var nextPage = false;
     function fetchNextPage() {
       if (nextPage) {
+        $(".waitloading").show();
         getJSON(nextPage + "&callback=?", null, handleSearchResults);
         nextPage = false;
       }
@@ -205,6 +209,7 @@
         exclusions.push(reg);
         query = query.replace(exclusion_matcher, ' ');
       }
+      $(".waitloading").show();
       getJSON( 'http://graph.facebook.com/search?callback=?', {'q':query, 'type':'post'}, handleSearchResults);
     }
 
