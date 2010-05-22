@@ -196,7 +196,8 @@
       var num = slide[0].id;
       $(".nav_link").removeClass("active");
       $("#link" + num).addClass("active");
-      location.hash = num === "1" ? "" : num;
+      location.hash = (num === "1") ? "" : num;
+      oldHash = location.hash;
       return false;
     }
     
@@ -210,11 +211,11 @@
 
     var oldHash = location.hash;
     setInterval(function() {
-      if (location.hash != oldHash) {
+      if (location.hash !== oldHash) {
         oldHash = location.hash;
         hashChange();
       }
-    })
+    }, 100)
     
 
     // load the FB Like button async, wait until resources loaded, then show
