@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" type="text/css" href="search.css" media="all">
   <style type="text/css">
-  #body { font-size:110%; }
+  #body { font-size:120%; }
 
   #gallery {
     width:450px;
@@ -17,11 +17,13 @@
   .slide {
     height: 450px;
   }
-  #gallery img.next { padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
+  #gallery img.next { width:320px; height:320px; padding:0px; margin-top:30px; margin-bottom:30px; margin-left:50px; border:solid thin gray; cursor:pointer;}
+  #question { width:320px; height:320px; font-size:30px; margin-bottom: 30px; margin-left: 3px; margin-top: 30px;}
   #blue-arrow { position:absolute; top:306px; }
-  a.next { float:right; }
-  a.prev { float:left;  }
+  a.next { float:right; font-weight:bold; }
+  a.prev { float:left;  font-weight:bold; }
   h3 { font-weight:bold; }
+
   .footer { padding-top: 20px;}
   .footer a {font-size: 120%;}
   .feedback {margin-bottom: 50px;}
@@ -57,7 +59,7 @@
             <img class="next" src="images/facebook-slider0.png"/>
             <div>
               Facebook has a <a href="http://www.nytimes.com/interactive/2010/05/12/business/facebook-privacy.html">bewildering number</a> of privacy settings.<br>&nbsp;<br>
-              As <a href='http://youropenbook.org/' target='_blank'>Openbook's search service shows</a>, this results in many users sharing private details of their lives with the entire planet, without their knowledge or permission.
+              As <a href='http://youropenbook.org/' target='_blank'>Openbook shows</a>, this results in many users sharing private details of their lives with the entire planet, without their knowledge or permission.
             </div>
           </li>
           <li class="slide" id="slide2">
@@ -93,6 +95,17 @@
               Users can still customize their settings in detail.
             </div>
           </li>
+          <li class="slide" id="slide6">
+            <h3>6 - The end?</h3>
+            <div id="question">
+              So Facebook,<br>
+              it's up to you.
+              </div>
+            <div class='caption'>
+              We'd also like to see Facebook publicly commit to never moving the user's slider to the right without their express permission.
+            </div>
+          </li>
+
         </ol>
         <div class='footer invisible'>
           <a class="prev" href="#prev">&larr; Prev</a>  
@@ -118,6 +131,7 @@
     }
 
     function showSlide(slide) {
+      if (!slide.length) { return false; } // if you click final image
       if (!slide.next().length) {
         $("a.next").hide()
       }
