@@ -58,7 +58,7 @@
         </form>
 
         <div class='examples invisible' id="latest">
-          <span id="examples">Recent Searches: <span id="qph"><b>??</b>k/hour</span></span>
+          <span id="examples">Recent Searches: <span id="qph">(<b>??</b> per hour)</span></span>
         </div>
         <div id="results"></div>
         <div style="clear:both"></div>
@@ -170,9 +170,8 @@
       if (!response || !response.latest) { return; }
       shuffle(response.latest);
       $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
-      $('#qph b')
-      .text( Math.floor(response.qpm*60/1000) ) // queries per hour in 1000s
-      .attr('title',Math.round(10*response.qpm/60)/10 + ' queries per sec');
+      $('#qph b').text( response.qpm*60 ); // queries per hour in 1000s
+      $('#qph').attr('title',Math.round(10*response.qpm/60)/10 + ' searches every second');
       $("#latest").show();
       if (!params.q) {
         params.q = response.latest[0];
