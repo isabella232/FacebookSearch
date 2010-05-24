@@ -197,9 +197,11 @@
       }
     }
 
+    var exclusions = [];  // TODO: clean up globals in this file
+    
     loadFirst();
 
-    var exclusions = [];  // TODO: clean up globals in this file
+
     function loadFirst() {
       var query = params.q;
       if (!query) { return; }
