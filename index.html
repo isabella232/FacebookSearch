@@ -50,7 +50,7 @@
       <div id="updates">
         <form action="">
           <label class="header" for="q">Search Facebook updates: </label>
-          <input id="q" name="q" type="text"/>
+          <input id="q" name="q" autofocus type="text"/>
           <input id="search" type="image" src="images/button-search.png" alt="button-search" width="56" height="25" />
           <label><input type="radio" name="gender" value="male" />   <img src="images/male-small.png"   alt="Show Male only"   title="Show Male only"  ></label>
           <label><input type="radio" name="gender" value="female" /> <img src="images/female-small.png" alt="Show Female only" title="Show Female only"></label>
@@ -72,6 +72,10 @@
   <script>
   $(function() {
     var STATS_SERVER = 'http://popular.youropenbook.org:8000';
+    
+    if (!("autofocus" in document.createElement("input"))) {
+      $("#q").focus()
+    }
     
     var params={
       q:  '',           // query str
