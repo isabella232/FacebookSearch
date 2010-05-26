@@ -26,6 +26,7 @@
   #about strong { font-weight: bold; }
   #about p { margin: 12px; margin-right:80px; }
 
+  #pressclipping { height:30px; }
   </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 </head>
@@ -115,9 +116,19 @@
           <li>
             <strong>Who has written about Openbook?</strong>
             <p id='links'>
-              <a class="bold" href="http://online.wsj.com/article/SB10001424052748704912004575252723109845974.html">Wall&nbsp;Street&nbsp;Journal</a>
+              <span>
+                <a class="bold" href="http://www.npr.org/templates/story/story.php?storyId=127118179">NPR</a>
+                <i>All Things Considered</i><q>The results are mesmerizing.</q>
+              </span>
+              <span>
+                <a class="bold" href="http://online.wsj.com/article/SB10001424052748704912004575252723109845974.html">Wall&nbsp;Street&nbsp;Journal</a>
+                <q>... programmers have taken to exposing Facebook privacy issues. A site called YourOpenBook.org searches the public status updates of users...</q>
+              </span>
               <a class="bold" href='http://blogs.channel4.com/news/benjamin-cohen-on-technology/2010/05/18/exclusive-facebook-expected-to-announce-new-privacy-settings-within-days/'>Channel&nbsp;4&nbsp;News</a>
-              <a class="bold" href='http://newsfeed.time.com/2010/05/18/facebook-new-site-sifts-through-sensitive-statuses/'>Time</a>
+              <span>
+                <a class="bold" href='http://newsfeed.time.com/2010/05/18/facebook-new-site-sifts-through-sensitive-statuses/'>Time</a>
+                <q>New Site Sifts Through Sensitive Facebook Statuses</q>
+              </span>
               <a class="bold" href="http://www.dailymail.co.uk/news/article-1280330">Daily&nbsp;Mail</a>
               <a class="bold" href='http://www.metafilter.com/92015/Your-life-is-an-Open-Book'>Metafilter</a>
               <a class="bold" href='http://www.theregister.co.uk/2010/05/17/facebook_update_privacy_risk/'>The&nbsp;Register</a>
@@ -147,6 +158,7 @@
               <a href='http://www.tgdaily.com/software-features/49780-facebooksearch-collates-embarrassing-facebook-posts'>TGDaily</a>
               <a href="http://www.lesoir.be/actualite/vie_du_net/2010-05-21/openbook-le-livre-noir-de-facebook-771546.php">Le&nbsp;Soir</a>
             </p>
+            <p id="pressclipping"></p>
           </li>
           <li>
             <strong>Are you guys HACKING FACEBOOK!?!?!?!</strong>
@@ -195,5 +207,19 @@
       </div>
     </div>
   </div>
+  <script>
+  $(function() { 
+
+    $('#links span').each(function(index,parent) {
+      var cn='press-'+index, $parent=$(parent), $info=$parent.find(':not(a)');
+      $info.addClass(cn).hide().appendTo('#pressclipping');
+      $parent.addClass(cn);
+      console.log($info);
+    }).hover(function() {
+      var cn=$(this).attr('class');
+      $('.'+cn,$('#pressclipping')).toggle();
+    });
+  });
+</script>
 </body>
 </html>
