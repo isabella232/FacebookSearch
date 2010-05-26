@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" type="text/css" href="search.css" media="all">
   <style type="text/css">
-  #slidercontainer { position:relative; height: 115px;}
+  #slidercontainer { position:relative; }
   #slidercontainer p { width: 420px;}
   #sliderthumb { position: absolute; right: 150px; top: -7px; padding:10px; text-align:center; }
   #sliderthumb img { padding:1px; border:solid thin gray; }
@@ -25,6 +25,9 @@
   #about li { margin: 16px 0 12px 12px; line-height: 1.3; }
   #about strong { font-weight: bold; }
   #about p { margin: 12px; margin-right:80px; }
+
+  #bulllist    { list-style:inside; padding-left:10px; padding-top:10px;}
+  #bulllist li { margin:5px;}
 
   #pressclipping { height:30px; }
   </style>
@@ -61,42 +64,37 @@
         <ul>
           <li>
             <strong>What is Openbook?</strong>
-            <p>Openbook draws attention to the information Facebook makes public about its users via its search API.  Facebook exposed this service on April 21st, 2010.</p>
-            <p>
-              Our goal is to get Facebook to restore the privacy of this information, so that this website and others like it no longer work.
-            </p>
-            <p>
-              Questions and media enquiries are welcome:
-              <a href="mailto:Openbook%20<facepalm.inquiries@gmail.com>?subject=Openbook:%20---%20your%20question%20here%20---"><b>email</b> Will, Peter and James</a>, or
-               <a target="_blank" href="http://twitter.com/youropenbookorg"> follow us on <b>Twitter</b></a>.
-            </p>
-            <p>
-              This website is a parody, and has no relationship to Facebook.
-            </p>
-          </li>
-          <li>
-            <strong>What has Facebook done wrong?</strong>
-            <p>
-              Facebook has made two clear mistakes here.  First, they do not do a good job of indicating how public each piece of information you share on the site will be.
-            </p>
-            <p>
-              Second, <a href='http://mattmckeon.com/facebook-privacy/'>they change the rules far too often</a>. If you understood Facebook's privacy settings two years ago (or even six months ago) that information would be worse than useless with today's <a href="http://www.nytimes.com/interactive/2010/05/12/business/facebook-privacy.html">bewildering settings</a>.
-            </p>
-          </li>
-          <li id="slidercontainer">
-            <strong>What do we want Facebook to do?</strong>
-            <div id="sliderthumb">
-              <a href="proposal.html"><img src="images/slider-thumb.gif" alt="Facebbok with slider control for privacy levels"/></a><br>
-              <a href="proposal.html"><b>View our privacy proposal</b></a>
-            </div>
-            <p>Make the privacy settings clearer on Facebook. This isn't hard. </p>
-            
-            <p>Here's <a href="proposal.html">our simple proposal</a>.
-              The slider provides preset groups of privacy settings
-              that range from 'private' to 'open'.
+            <p>Openbook lets you search public Facebook updates using Facebook's own search service.</p>
+            <p>Facebook's <a href='http://mattmckeon.com/facebook-privacy/'>bait-and-switch</a> on privacy and their
+              <a href="http://www.nytimes.com/interactive/2010/05/12/business/facebook-privacy.html">very complex</a>
+              settings causes many users post messages intended for their friends to 'everybody'.
+              That's the entire planet, for all time. This privacy-malfunction could have serious concequences if you're looking for a job, applying for college or medical insurance.</p>
+            </li>
+            <li id="slidercontainer">
+              <strong>What do we want Facebook to do?</strong>
+              <div id="sliderthumb">
+                <a href="proposal.html"><img src="images/slider-thumb.gif" alt="Facebbok with slider control for privacy levels"/></a><br>
+                <a href="proposal.html"><b>View our privacy proposal</b></a>
+              </div>
+              <ul id="bulllist">
+                <li>Make it easy to control and understand your privacy settings.</li>
+                <li>Promise that they won't change them behind your back.</li>
+                <li>Make new accounts private by default.</li>
+              </ul>
+              <p>It wouldn't be hard to provide simple, clear groups of privacy settings. Here's <a href="proposal.html">our simple proposal</a>.</p>
+            </li>
+            <li>
+              <strong>Who are we?</strong>
+              <p>Will Moffat, Peter Burns and James Home, San Francisco based website developers and Facebook users concerned about privacy.</p>
+              <p>Questions and media enquiries are welcome:
+                <a href="mailto:Openbook%20<facepalm.inquiries@gmail.com>?subject=Openbook:%20---%20your%20question%20here%20---"><b>email</b> us</a>, or
+                <a target="_blank" href="http://twitter.com/youropenbookorg"> follow us on <b>Twitter</b></a>.
               </p>
-          </li>
-          <li>
+              <p>
+                This website is a parody, and has no relationship to Facebook.
+              </p>
+            </li>
+            <li>
             <strong>Do I need to be logged into Facebook to use Openbook?</strong>
             <p><strong>No!</strong> Anybody can search, even if they don't have a Facebook account. However, if you are logged into your Facebook account, you'll see full profile pages when you click on a user.</p>
           </li>
@@ -173,10 +171,6 @@
             <strong>I want this site in Swedish, French, Hindi ... and why are there so many obscene recent searches in German?</strong>
             <p>If you can help us out, then please <a href="https://spreadsheets.google.com/viewform?hl=en&amp;formkey=dFZIRmdicmxyVnhRX0FLLVZFdXRPcEE6MQ#gid=0">
               let us know which languages you speak</a>. Thanks!</p>
-          </li>
-          <li>
-            <strong>Who are we?</strong>
-            <p>We are three Facebook users concerned about privacy.  We work as software engineers and designers in San Francisco.</p>
           </li>
           <li>
             <strong>Who built Openbook?  How?  When?</strong>
