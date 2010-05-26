@@ -21,8 +21,13 @@
   #links   {text-align: justify; }
   .bold    {font-weight: bold;}
   
+  #about li.closed { cursor:pointer; margin:6px 12px;}
+  #about li.closed strong {font-weight:normal; color:#3b5998;}
+  #about li.closed:hover { text-decoration:underline; }
+  #about li.closed p { display:none; }
+  
   #about { font-size: 13px; }
-  #about li { margin: 16px 0 12px 12px; line-height: 1.3; }
+  #about li { margin: 16px 0 24px 12px; line-height: 1.3; }
   #about strong { font-weight: bold; }
   #about p { margin: 12px; margin-right:80px; }
 
@@ -62,7 +67,7 @@
     <div id="body">		
       <div id="about">		
         <ul>
-          <li>
+          <li class="open">
             <strong>What is Openbook?</strong>
             <p>Openbook lets you search public Facebook updates using Facebook's own search service.</p>
             <p>Facebook's <a href='http://mattmckeon.com/facebook-privacy/'>bait-and-switch</a> on privacy and their
@@ -70,7 +75,7 @@
               settings causes many users post messages intended for their friends to 'everybody'.
               That's the entire planet, for all time. This privacy-malfunction could have serious concequences if you're looking for a job, applying for college or medical insurance.</p>
             </li>
-            <li id="slidercontainer">
+            <li class="open" id="slidercontainer">
               <strong>What do we want Facebook to do?</strong>
               <div id="sliderthumb">
                 <a href="proposal.html"><img src="images/slider-thumb.gif" alt="Facebbok with slider control for privacy levels"/></a><br>
@@ -83,9 +88,9 @@
               </ul>
               <p>It wouldn't be hard to provide simple, clear groups of privacy settings. Here's <a href="proposal.html">our simple proposal</a>.</p>
             </li>
-            <li>
+            <li class="open">
               <strong>Who are we?</strong>
-              <p>Will Moffat, Peter Burns and James Home, San Francisco based website developers and Facebook users concerned about privacy.</p>
+              <p>Will Moffat, Peter Burns and James Home, Facebook users concerned about privacy. We're website developers based in San Francisco.</p>
               <p>Questions and media enquiries are welcome:
                 <a href="mailto:Openbook%20<facepalm.inquiries@gmail.com>?subject=Openbook:%20---%20your%20question%20here%20---"><b>email</b> us</a>, or
                 <a target="_blank" href="http://twitter.com/youropenbookorg"> follow us on <b>Twitter</b></a>.
@@ -193,8 +198,8 @@
           </li>
         </ul>
 
-        <a href='index.html' id="returnlink">Search for more Facebook Updates!</a>
         <div id="footer">
+          <br>
           Awesome hosting by <a href="http://github.com"><img width=60 height=30 src="http://alx.github.com/gitbook/assets/images/github.png" alt="github"></a>
         </div>
 
@@ -203,12 +208,17 @@
   </div>
   <script>
   $(function() { 
-
+    // hide most of the FAQ
+    $('#about>ul>li:not(.open)').addClass('closed').click(function() {
+      $(this).toggleClass('closed');
+    });
+    
+    // press clippings
+    $('#links a').attr('target','_blank');
     $('#links span').each(function(index,parent) {
       var cn='press-'+index, $parent=$(parent), $info=$parent.find(':not(a)');
       $info.addClass(cn).hide().appendTo('#pressclipping');
       $parent.addClass(cn);
-      console.log($info);
     }).hover(function() {
       var cn=$(this).attr('class');
       $('.'+cn,$('#pressclipping')).toggle();
