@@ -29,7 +29,11 @@
   #bulllist    { list-style:inside; padding-left:10px; padding-top:10px;}
   #bulllist li { margin:5px;}
 
-  #pressclipping { height:30px; }
+  #pressclipping { height:56px; }
+  #links q { display:block; margin-bottom:10px; } /* if JS is off */
+  #pressclipping i { font-style:italic; margin-right:6px; }
+  .hidden { display:none; } /* required because $('q').show() was setting display:block rather than display:inline
+  
   </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 </head>
@@ -95,7 +99,7 @@
             This website is a parody, and has no relationship to Facebook.
           </p>
         </li>
-        <li class="open">
+        <li>
           <strong>Who has written about Openbook?</strong>
           <p id='links'>
             <span>
@@ -113,11 +117,11 @@
             </span>
             <span>
               <a class="bold" href="http://www.dailymail.co.uk/news/article-1280330">Daily&nbsp;Mail</a>
-              <q>... some of the people who didn't notice that default settings increasingly allowed more of their data to be visible, the results have been devastating.<br>The quotes I used at the beginning of this article were gleaned from www.youropenbook.org, a website set up ten days ago by three disgruntled computer programmers in San Francisco.</q>
+              <q>... some of the people who didn't notice that default settings increasingly allowed more of their data to be visible, the results have been devastating. The quotes I used at the beginning of this article were gleaned from www.youropenbook.org, a website set up ten days ago by three disgruntled computer programmers in San Francisco.</q>
             </span>
             <span>
               <a class="bold" href='http://www.metafilter.com/92015/Your-life-is-an-Open-Book'>Metafilter</a>
-              <i>KokuRyu</i><q>It's pretty fucking annoying to have to routinely examine my FB privacy settings to see if Mark Zuckerberg has decided to install some new snooping application, or disable my privacy settings in some way.<br>Sure, some people are oversharing, but it's only because Facebook changes the rules and doesn't tell anyone when they do it.</q>
+              <i>KokuRyu</i><q>It's pretty fucking annoying to have to routinely examine my FB privacy settings to see if Mark Zuckerberg has decided to install some new snooping application, or disable my privacy settings in some way. Sure, some people are oversharing, but it's only because Facebook changes the rules and doesn't tell anyone when they do it.</q>
             </span>
             <span>
               <a class="bold" href='http://www.theregister.co.uk/2010/05/17/facebook_update_privacy_risk/'>The&nbsp;Register</a>
@@ -141,7 +145,7 @@
             </span>
             <span>
               <a class="bold" href='http://www.wired.com/epicenter/2010/05/facebook-transparency-tool/'>Wired&nbsp;(1)</a>
-              <q>And if you care to see examples of people who probably ought to use the tool, head to Openbook, which lets you search through the status updates that people had published using the everyone setting. (And by everyone, Facebook means the entire web, not just everyone in your contact list). Some fascinating and damning results that firmly fit in the TMI category: try “my DUI” or “shit my pants.”</q>
+              <q>And if you care to see examples of people who probably ought to use the tool, head to Openbook, which lets you search through the status updates that people had published using the everyone setting. (And by everyone, Facebook means the entire web, not just everyone in your contact list). Some fascinating and damning results...</q>
             </span>
             <span>
               <a class="bold" href="http://www.wired.com/epicenter/2010/05/openbook-facebook-design/">Wired&nbsp;(2)</a>
@@ -237,12 +241,14 @@ $(function() {
   // press clippings
   $('#links a').attr('target','_blank');
   $('#links span').each(function(index,parent) {
-    var cn='press-'+index, $parent=$(parent), $info=$parent.find(':not(a)');
-    $info.addClass(cn).hide().appendTo('#pressclipping');
+    var cn='press-'+index,
+    $parent=$(parent),
+    $info=$parent.find('i,q');
+    $info.addClass(cn).addClass('hidden').appendTo('#pressclipping');
     $parent.addClass(cn);
   }).hover(function() {
     var cn=$(this).attr('class');
-    $('.'+cn,$('#pressclipping')).toggle();
+    $('.'+cn,$('#pressclipping')).toggleClass('hidden');
   });
 });
 </script>
