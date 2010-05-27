@@ -30,9 +30,9 @@
   #bulllist li { margin:5px;}
 
   #pressclipping { height:56px; }
-  #links q { display:block; margin-bottom:10px; } /* if JS is off */
+  #links q {  margin-right:20px; } /* if JS is off */
   #pressclipping i { font-style:italic; margin-right:6px; }
-  .hidden { display:none; } /* required because $('q').show() was setting display:block rather than display:inline
+  .hidden { display:none; }  /* required because $('q').show() was setting display:block rather than display:inline*/
   
   </style>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
@@ -244,6 +244,7 @@ $(function() {
     var cn='press-'+index,
     $parent=$(parent),
     $info=$parent.find('i,q');
+    console.log($parent[0]);
     $info.addClass(cn).addClass('hidden').appendTo('#pressclipping');
     $parent.addClass(cn);
   }).hover(function() {
