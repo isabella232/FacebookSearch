@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" href="search.css" media="all">
   <style type="text/css">
   #sharecontainer { position:absolute; left:206px; top:41px; }
+  #checkcontainer { position:absolute; left:406px; top:41px; }
   #aboutcontainer { position:absolute; left:706px; top:41px; }
 
   .button        {font-size:12px;padding:6px;-webkit-border-radius:7px;-moz-border-radius:7px;border-radius:7px;background-color:#5a74a9;color:#fff;font-weight:bold }
@@ -36,6 +37,7 @@
     <div id="head">
       <a href="http://youropenbook.org/"><img src="images/logo-openbook.png" alt="openbook" id="logo" width="184" height="45" /></a>
       <a id="sharecontainer" class="button" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Fyouropenbook.org%2F&amp;linkname=Openbook%20-%20See%20what's%20public%20on%20Facebook">Tell your friends</a>
+      <a id="checkcontainer" class="button invisible" href="http://www.facebook.com/home.php">Check Privacy Settings</a>
       <a id="aboutcontainer" class="button" href="about.html">About Openbook</a>
     </div>
     <div id="tag">
@@ -69,8 +71,13 @@
   $(function() {
     var STATS_SERVER = 'http://popular.youropenbook.org:8000';
     
+    // were we loaded by the openbook android app?
+    if (navigator && navigator.userAgent && navigator.userAgent === 'openbookapp') {
+      $('#checkcontainer').show();
+    }
+    
     if (!("autofocus" in document.createElement("input"))) {
-      $("#q").focus()
+      $("#q").focus();
     }
     
     var params={
@@ -333,6 +340,7 @@
       return arr;
     }
   });
+  
   </script>
 </body>
 </html>
