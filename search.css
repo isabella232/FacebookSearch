@@ -12,7 +12,6 @@ body { font-size: 62.5%; line-height: 1; color: #000; background: #fff url(image
 #container { margin: 0 auto; width: 875px; }
 
 #head { position: relative; margin: 0 15px; }
-#like { position: absolute; top: 42px; left: 215px; height: 24px; width: 100px; }
 #quote { position: absolute; top: 35px; right: 0; height: 24px; width: 300px; text-align: right; }
 #quote a { color: #fff; font-weight: bold; font-size: 13px; }
 #logo { margin: 30px 0 10px 0; }
