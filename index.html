@@ -173,7 +173,9 @@
     $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
     $('input:radio').click(function() { update_gender($(this).val()); });
 
-    getJSON(STATS_SERVER + '/latest?callback=?', {'q':params.q }, function(response) {
+    var ref='';
+    if (document.referrer && (document.referrer.indexOf('http://youropenbook.org')!==0)) { ref = document.referrer; }
+    getJSON(STATS_SERVER + '/latest?callback=?', {'q':params.q, 'ref':ref }, function(response) {
       if (!response || !response.latest) { return; }
       shuffle(response.latest);
       $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
