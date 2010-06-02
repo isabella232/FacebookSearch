@@ -90,6 +90,7 @@
     var params={
       q:  '',           // query str
       gender:  'any',   // male female any
+      debug:false,      // log to console
       maxlen:  500      // max message len
     };
     document.location.search.replace(/[?&]([^&=]+)=([^&]+)/g,function(_,key,val) {
@@ -100,8 +101,7 @@
     });
 
 
-    //function debug(str) { try { console.log(str); } catch(e) {} }
-    function debug() { } // for production
+    function debug(str) { if (!params.debug) { return; } try { console.log(str); } catch(e) {} }
 
     var MAX_REQUESTS = 20; // max number of jsonp requests to make
     var REQUEST_TIMEOUT = 60*1000;
