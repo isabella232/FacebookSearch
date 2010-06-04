@@ -4,16 +4,29 @@
   <meta name="description" content="Openbook - See what's public on Facebook" />
   <title>Openbook - Connect and share whether you want to or not</title>
   <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="search.css" media="all">
   <style type="text/css">
   #sharecontainer { position:absolute; left:206px; top:41px; }
-  .button        {font-size:12px;padding:6px;-webkit-border-radius:7px;-moz-border-radius:7px;border-radius:7px;background-color:#5a74a9;color:#fff;font-weight:bold }
+  #checkcontainer { position:absolute; left:340px; top:41px; }
+  #aboutcontainer { position:absolute; left:706px; top:41px; }
+
+  .buttonborder  { border:1px solid #1a3073; }
+  .button        {font-size:12px;padding:6px;-webkit-border-radius:7px;-moz-border-radius:7px;border-radius:7px;background-color:#5a74a9;color:#fff;font-weight:bold;cursor:pointer; }
   .button:hover  {background-color:#82B0FF;}
   .button:active {border:1px solid #fff}
   a.button       {color:white;}
   a.button:hover {text-decoration:none;}
   .waitloading   {display:none; margin-left:373px; width: 32px; height: 32px;}
-  #zucker {color:#DDF; font-size:9px; margin-right:6px; margin-top:4px;}
+
+  @media only screen and (max-device-width: 480px) {
+     #container { width:480px; margin:0px; } /* must match smallMode test in JS */
+     #aboutcontainer { left:200px;}
+     #updates { margin:3px;}
+     .person { width:105px; margin-bottom:5px;}
+     .msg { margin-left:5px;}
+   }
+
   </style>
 </head>
 <body>
@@ -34,16 +47,11 @@
     <div id="head">
       <a href="http://youropenbook.org/"><img src="images/logo-openbook.png" alt="openbook" id="logo" width="184" height="45" /></a>
       <a id="sharecontainer" class="button" href="http://www.addtoany.com/share_save?linkurl=http%3A%2F%2Fyouropenbook.org%2F&amp;linkname=Openbook%20-%20See%20what's%20public%20on%20Facebook">Tell your friends</a>
-      <div id="quote">
-        <a href="http://www.businessinsider.com/well-these-new-zuckerberg-ims-wont-help-facebooks-privacy-problems-2010-5">&#8220;They 'trust me'. Dumb fucks.&#8221;</a>
-        <div id="zucker">Mark Zuckerberg, Facebook</div>
-      </div>
+      <a id="checkcontainer" class="button invisible" href="http://www.reclaimprivacy.org/">Reclaim Privacy</a>
+      <a id="aboutcontainer" class="button" href="about.html">About Openbook</a>
     </div>
     <div id="tag">
       <h1>Facebook helps you connect and share with the people in your life.  Whether you want to or not.</h1>
-      <a href="about.html" id="learnwhy">
-        <img src="images/button-learnwhy.png" alt="Learn why this is bad!" width="156" height="25" />
-      </a>
     </div>
 
     <div id="body">
@@ -51,7 +59,7 @@
         <form action="">
           <label class="header" for="q">Search Facebook updates: </label>
           <input id="q" name="q" autofocus type="text"/>
-          <input id="search" type="image" src="images/button-search.png" alt="button-search" width="56" height="25" />
+          <input id="search" class="button buttonborder" type="submit" value="Search" />
           <label><input type="radio" name="gender" value="male" />   <img src="images/male-small.png"   alt="Show Male only"   title="Show Male only"  ></label>
           <label><input type="radio" name="gender" value="female" /> <img src="images/female-small.png" alt="Show Female only" title="Show Female only"></label>
           <label><input type="radio" name="gender" value="any" /> everybody</label>
@@ -73,13 +81,16 @@
   $(function() {
     var STATS_SERVER = 'http://popular.youropenbook.org:8000';
     
+    var smallMode = $('#container').width() <= 480; // Set by CSS
+    
     if (!("autofocus" in document.createElement("input"))) {
-      $("#q").focus()
+      $("#q").focus();
     }
     
     var params={
       q:  '',           // query str
       gender:  'any',   // male female any
+      debug:false,      // log to console
       maxlen:  500      // max message len
     };
     document.location.search.replace(/[?&]([^&=]+)=([^&]+)/g,function(_,key,val) {
@@ -90,8 +101,7 @@
     });
 
 
-    //function debug(str) { try { console.log(str); } catch(e) {} }
-    function debug() { } // for production
+    function debug(str) { if (!params.debug) { return; } try { console.log(str); } catch(e) {} }
 
     var MAX_REQUESTS = 20; // max number of jsonp requests to make
     var REQUEST_TIMEOUT = 60*1000;
@@ -137,7 +147,7 @@
     var ROW_HTML=['',
     '<div class="update ~ROWCLASS~">',
     '  <div class="person">',
-    '    <a href="http://www.facebook.com/profile.php?id=~ID~&v=wall" target="_blank"><img src="http://graph.facebook.com/~ID~/picture?type=large"/></a>',
+    '    <a href="http://www.facebook.com/profile.php?id=~ID~&v=wall" target="_blank"><img src="http://graph.facebook.com/~ID~/picture?type=~SIZE~"/></a>',
     '  </div>',
     '<div class="msg">',
     '  <p>~SEX~ <b><a href="http://www.facebook.com/profile.php?id=~ID~&v=wall" target="_blank">~NAME~</a></b>',
@@ -170,7 +180,9 @@
     $('input:radio[value='+params.gender+']').attr('checked',true); update_gender(params.gender);
     $('input:radio').click(function() { update_gender($(this).val()); });
 
-    getJSON(STATS_SERVER + '/latest?callback=?', {'q':params.q }, function(response) {
+    var ref='';
+    if (document.referrer && (document.referrer.indexOf('http://youropenbook.org')!==0)) { ref = document.referrer; }
+    getJSON(STATS_SERVER + '/latest?callback=?', {'q':params.q, 'ref':ref }, function(response) {
       if (!response || !response.latest) { return; }
       shuffle(response.latest);
       $.each(response.latest,function(_,example){ $('<a>',{href:'?q='+encodeURIComponent(example),text:example}).appendTo($('#examples')); });
@@ -237,6 +249,7 @@
       var msg = body(post);
       var html = ROW_HTML
       .replace(/~ROWCLASS~/g, gender2class(user.gender))
+      .replace(/~SIZE~/g,     smallMode ? 'normal' : 'large')
       .replace(/~ID~/g,       post.from.id)
       .replace(/~POSTID~/g,   post.id.match(/\d+_(\d+)/)[1])
       .replace(/~NAME~/g,     post.from.name)
@@ -337,6 +350,7 @@
       return arr;
     }
   });
+  
   </script>
 </body>
 </html>
