@@ -173,7 +173,7 @@
         count:  $('#results .update:visible').length,
         userid: userid
       };
-      getJSON(STATS_SERVER + '/share?callback=?',share_info, function() {}, true);  /*never timeout*/
+      //DISABLED: getJSON(STATS_SERVER + '/share?callback=?',share_info, function() {}, true);  /*never timeout*/
     });
 
     function gender2class(gender) { return 'gender-'+(gender || 'any'); }
@@ -188,6 +188,7 @@
 
     var ref='';
     if (document.referrer && (document.referrer.indexOf('http://youropenbook.org')!==0)) { ref = document.referrer; }
+    /*DISABLED
     getJSON(STATS_SERVER + '/latest?callback=?', {'q':params.q, 'ref':ref }, function(response) {
       if (!response || !response.latest) { return; }
       shuffle(response.latest);
@@ -201,6 +202,7 @@
         loadFirst();
       }
     });
+    END:DISABLED*/
 
     function loadMore() {
       var page_remaining = $(document).height() - ($(window).height() + $(window).scrollTop());
